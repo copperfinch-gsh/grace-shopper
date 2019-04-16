@@ -1,7 +1,7 @@
-const db = require('../db');
-const User = require('./user');
-const Product = require('./product');
-const Orders = require('./orders');
+const db = require('../db')
+const User = require('./user')
+const Product = require('./product')
+const Order = require('./order')
 const OrderHistory = require('./orderHistory')
 
 /**
@@ -11,13 +11,11 @@ const OrderHistory = require('./orderHistory')
  *    BlogPost.belongsTo(User)
  */
 
-Orders.belongsTo(User);
-User.hasMany(Orders);
+Order.belongsTo(User)
+User.hasMany(Order)
 
-Product.belongsToMany(Orders, {through: OrderHistory});
-Orders.belongsToMany(Product, {through: OrderHistory});
-
-
+Product.belongsToMany(Order, {through: OrderHistory})
+Order.belongsToMany(Product, {through: OrderHistory})
 
 /**
  * We'll export all of our models here, so that any time a module needs a model,
@@ -29,6 +27,6 @@ module.exports = {
   db,
   User,
   Product,
-  Orders,
+  Order,
   OrderHistory
 }

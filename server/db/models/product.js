@@ -21,7 +21,9 @@ const Product = db.define('product', {
     type: Sequelize.STRING
   },
   price: {
-    type: Sequelize.FLOAT
+    type: Sequelize.FLOAT,
+    defaultValue: 0,
+    validate: {}
   },
   color: {
     type: Sequelize.STRING
@@ -30,7 +32,11 @@ const Product = db.define('product', {
     type: Sequelize.STRING
   },
   quantity: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+    validate: {
+      min: 0
+    }
   }
 })
 
