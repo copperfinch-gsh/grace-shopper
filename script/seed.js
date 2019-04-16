@@ -117,10 +117,10 @@ async function seed() {
   ])
 
   const orders = await Promise.all([
-    Order.create({userId: 1}),
-    Order.create({userId: 1}),
-    Order.create({userId: 2}),
-    Order.create({userId: 3})
+    Order.create({userId: 1, total: 2003.79}),
+    Order.create({userId: 1, total: 650 * 3 + 3.79 * 2}),
+    Order.create({userId: 2, total: 18 * 3 + 3500 * 3}),
+    Order.create({userId: 3, total: 3500})
   ])
 
   const orderHistories = await Promise.all([
