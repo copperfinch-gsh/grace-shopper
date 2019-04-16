@@ -1,6 +1,6 @@
-const crypto = require('crypto');
-const Sequelize = require('sequelize');
-const db = require('../db');
+const crypto = require('crypto')
+const Sequelize = require('sequelize')
+const db = require('../db')
 
 const User = db.define('user', {
   firstName: {
@@ -48,6 +48,10 @@ const User = db.define('user', {
   },
   googleId: {
     type: Sequelize.STRING
+  },
+  isAdmin: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   }
 })
 
