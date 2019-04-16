@@ -14,11 +14,16 @@ export default class Cart extends Component {
 
   render() {
     return (
-      <div>
+      <div className="container-fluid">
+        <style jsx>{`
+          h3 {
+            color: green;
+          }
+        `}</style>
         <h3>Shopping Cart:</h3>
         {this.state.cart.map(item => {
           return (
-            <div>
+            <div key={item.id}>
               <div>
                 {' '}
                 <img src={item.imageUrl} alt="item image" />{' '}
