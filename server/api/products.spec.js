@@ -16,10 +16,10 @@ describe('Products routes', () => {
       name: 'TestProduct',
       imageUrl: 'default_image.jpg',
       description: 'A cool fake product for testing',
-      types: 'acoustic',
+      type: 'acoustic',
       price: 200,
       color: 'black',
-      manufucturer: 'gibson',
+      manufacturer: 'gibson',
       quantity: 1
     }
     beforeEach(() => {
@@ -33,6 +33,7 @@ describe('Products routes', () => {
 
       expect(res.body).to.be.an('array')
       expect(res.body[0].name).to.be.equal('TestProduct')
+      expect(res.body[0].type).to.be.equal('acoustic')
     })
   }) // end describe('/api/products')
 }) // end describe('Products routes')
