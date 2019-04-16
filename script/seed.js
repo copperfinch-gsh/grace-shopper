@@ -22,9 +22,30 @@ async function seed() {
     Product.create({name: 'Lightning Bolt Strap', description: 'Make a statement with a Gibson Lightning Bolt strap. This safety belt style guitar strap features a sturdy vinyl backing. The plastic tri-glide buckle makes this 2” strap fully adjustable from 41 to 55 inches.', type: 'accessory', price: 16.99, color: 'Ferrari Red', manufacturer: 'Gibson', quantity: 150}),
     Product.create({name: 'Switchblade Guitar Strap', description: 'The Gibson Switchblade Guitar Strap is choc full of innovative design and comfort features. The quick release-connect and elastic high-tech nylon buckle is just the beginning of what this high quality strap has to offer. Continuing with the top of the line accoutrements is the half-inch thick memory foam padding. It is covered by thick, full grain top leather. The black strap includes a wide, thick and soft leather pad and soft garment leather backing and is detail stitched.', type: 'accessory', price: 129.99, color: 'Black', manufacturer: 'Gibson', quantity: 150}),
     Product.create({name: 'Gator Picks (set of 12)', description: 'These classic, affordable, 1.5 gauge picks will have you shredding sixteenth notes better than Dick Dale. Come in a variety of colors to fit every rocker aesthetic.', type: 'accessory', price: 3.79, color: 'various', manufacturer: 'Dunlop', quantity: 150}),
+  ]);
+
+  const orders = await Promise.all([
+    Order.create({userId: 1}),
+    Order.create({userId: 1}),
+    Order.create({userId: 2}),
+    Order.create({userId: 3}),
+  ]);
+
+  const orderHistories = await Promise.all([
+    OrderHistory.create({productId: 1, productPrice: 2000, quantity: 1, orderId: 1}),
+    OrderHistory.create({productId: 8, productPrice: 3.79, quantity: 1, orderId: 1}),
+    OrderHistory.create({productId: 3, productPrice: 650, quantity: 3, orderId: 2}),
+    OrderHistory.create({productId: 8, productPrice: 3.79, quantity: 2, orderId: 2}),
+    OrderHistory.create({productId: 6, productPrice: 18, quantity: 3, orderId: 3}),
+    OrderHistory.create({productId: 2, productPrice: 3500, quantity: 3, orderId: 3}),
+    OrderHistory.create({productId: 1, productPrice: 3500, quantity: 1, orderId: 4}),
+
   ])
 
   console.log(`seeded ${users.length} users`)
+  console.log(`seeded ${products.length} products`)
+  console.log(`seeded ${orders.length} orders`)
+  console.log(`seeded ${orderHistories.length} order histories`)
   console.log(`seeded successfully`)
 }
 
