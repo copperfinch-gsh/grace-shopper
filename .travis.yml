@@ -14,16 +14,16 @@ notifications:
 install:
   - npm ci # faster, goes only from package-lock
 before_script:
-  - psql -c 'create database "boilermaker-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
+  - psql -c 'create database "grace_shredder-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
 script:
-  - npm test             # test the code
+  - npm test # test the code
   - npm run build-client # make the bundle
 
-# before_deploy:
-#   - rm -rf node_modules # omit from the tarball, since we skip cleanup
-# deploy:
-#   skip_cleanup: true # prevents travis from deleting the build
-#   provider: heroku
-#   app: YOUR-HEROKU-APP-NAME-HERE # see README
-#   api_key:
-#     secure: YOUR-***ENCRYPTED***-API-KEY-HERE # see README
+before_deploy:
+  - rm -rf node_modules # omit from the tarball, since we skip cleanup
+deploy:
+  skip_cleanup: true # prevents travis from deleting the build
+  provider: heroku
+  app: grace-shredder # see README
+  api_key:
+    secure: bjZ0YbkbXOqcmFZs0MXJalc51Bh3qocAjRhTQmjEjMtEi/+FvwxiTD/yOTmURIlpPAuwkspcgxAHRfCyVPYJNdqNd0omFO6B9DF7qYAqdE4PWDV+QI7XvfpClrVuKYRmZwqmjfB7/dh1qrg7SxtnOGQb8zj8aeh2uOH25u8HSWKTgP/EuupiCGyrN5i/1koTdgDMCTciJT3HjOF/WBm/H1IDNTbgu885dCH6kgrI5R4Qv1B49bwp7UXpAXUdVzmx0QOg1roLwl/GeIl/35NNjR+YBdS+/WhSZn8k79w3sWhPDswgARJ/1IyZwLoaYZcsvzbL3ZkWmfGtcRPPkkE/pBUK4SEDMxp+dMzRoc7LjqgNmzAv4UgPI11JuM538W22uIuafWSKFTmzg+pFpyqX2pfxR48X3d32EQdudAYRilk4WijYLKpP5S9kiE+cQ7JhKlbmUVl6SQgF7QYN1XV14bRuDQkbIph6N8QBcJ2gdHpE+psF3h9Fn1qwTsVmbH73vJ8UljOGyeAlNKpWUHHB65rNT+9u3oFknzueLAww3c8xjoapnKuA8lUvHGEUU6n8UyJ7qxe+dFs6lCiFrZRM/V5Tl3p57xFmO8nrjgKc8cUwG///eVEbdGHR3vTPgoKbnHKu9pQjdu39ih1bYUIze7eW+kAVp/UEsNFie8aVGmg=
