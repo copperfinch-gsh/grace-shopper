@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateCart } from '../store/cart';
+import { editCart } from '../store/cart';
 
 const Cart = ({ cartItems, handleChange }) => {
   return (
@@ -19,10 +19,10 @@ const Cart = ({ cartItems, handleChange }) => {
               <img src={item.imageUrl} alt="item image" />{' '}
             </div>
             <div> name: {item.name} </div>
-            <div> price: {item.price} </div>
+            <div> price: {item.price * item.desiredQuantity} </div>
             <div>
               {' '}
-              <select onChange={() => handleChange(item)}>
+              <select onChange={event => handleChange(event, item)}>
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(number => {
                   return (
                     <option
@@ -49,18 +49,15 @@ const Cart = ({ cartItems, handleChange }) => {
 };
 
 const mapStateToProps = state => ({
-  cartItems: state.cart
+  cartItems: state.cart.cartProducts
 });
 
 const mapDispatchToProps = dispatch => {
   return {
-    editCar: product => {
-      dispatch(updateCart(product));
-    },
     handleChange: (event, product) => {
       const value = event.target.value;
       dispatch(
-        updateCart({
+        editCart({
           product,
           desiredQuantity: value
         })

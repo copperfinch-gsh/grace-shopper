@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getProduct } from '../store/products';
-import { updateCart } from '../store/cart';
+import { setCart } from '../store/cart';
 import SingleProduct from './SingleProduct';
 
 class AllProducts extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      selectedNum: 1
-    };
   }
 
   async componentDidMount() {
@@ -45,7 +42,7 @@ const mapDispatch = dispatch => {
       dispatch(getProduct());
     },
     addToCart: product => {
-      dispatch(updateCart(product));
+      dispatch(setCart(product));
     }
   };
 };
