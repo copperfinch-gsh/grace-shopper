@@ -1,7 +1,14 @@
 'use strict';
 
 const db = require('../server/db');
-const { User, Product, Order, LineItem } = require('../server/db/models');
+const {
+  User,
+  Product,
+  Order,
+  LineItem,
+  Category
+} = require('../server/db/models');
+const ProductCategory = db.model('product-category');
 
 async function seed() {
   await db.sync({ force: true });
@@ -184,10 +191,30 @@ async function seed() {
     })
   ]);
 
+  const category = await Promise.all([
+    Category.create({ name: 'electric' }),
+    Category.create({ name: 'acoustic' }),
+    Category.create({ name: 'hollow-body' }),
+    Category.create({ name: 'accessory' })
+  ]);
+
+  const productCategory = await Promise.all([
+    ProductCategory.create({ productId: 1, categoryId: 1 }),
+    ProductCategory.create({ productId: 2, categoryId: 1 }),
+    ProductCategory.create({ productId: 3, categoryId: 2 }),
+    ProductCategory.create({ productId: 4, categoryId: 2 }),
+    ProductCategory.create({ productId: 5, categoryId: 3 }),
+    ProductCategory.create({ productId: 6, categoryId: 4 }),
+    ProductCategory.create({ productId: 7, categoryId: 4 }),
+    ProductCategory.create({ productId: 8, categoryId: 4 })
+  ]);
+
   console.log(`seeded ${users.length} users`);
   console.log(`seeded ${products.length} products`);
   console.log(`seeded ${orders.length} orders`);
   console.log(`seeded ${lineItems.length} line items`);
+  console.log(`seeded ${category.length} categories`);
+  console.log(`seeded ${productCategory.length} product-categories`);
   console.log(`seeded successfully`);
 }
 
