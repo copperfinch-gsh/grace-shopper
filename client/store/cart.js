@@ -10,7 +10,7 @@ const initialState = []
  * ACTION CREATORS
  */
 
-const updateCart = payload => ({
+export const updateCart = payload => ({
   type: UPDATE_CART,
   payload
 })

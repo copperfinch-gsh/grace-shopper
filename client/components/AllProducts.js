@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getProduct} from '../store/products'
+import {updateCart} from '../store/cart'
 import {Button} from 'react-bootstrap'
 import Card from 'react-bootstrap/Card'
 
@@ -9,7 +10,7 @@ class AllProducts extends Component {
     await this.props.getAllProducts()
   }
   render() {
-    const {products} = this.props
+    const {products, addToCart} = this.props
 
     return (
       <div>
@@ -29,7 +30,9 @@ class AllProducts extends Component {
                   <li>Price: ${product.price}</li>
                 </ul>
 
-                <Button variant="primary">Add to Cart</Button>
+                <Button onClick={() => addToCart(product)} variant="primary">
+                  Add to Cart
+                </Button>
               </Card.Body>
             </Card>
             <br />
@@ -50,6 +53,9 @@ const mapDispatch = dispatch => {
   return {
     getAllProducts: () => {
       dispatch(getProduct())
+    },
+    addToCart: product => {
+      dispatch(updateCart(product))
     }
   }
 }
