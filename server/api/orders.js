@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Order, LineItem } = require('../db/models');
+const { Order, LineItem, Product } = require('../db/models');
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
@@ -13,18 +13,18 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const total = Number(req.body.total);
     const items = req.body.items;
-    const order = await Order.create({
-      total
-    });
+    const order = await Order.create();
+
+    console.log('ITEMSSSS', items);
 
     //grab user
     if (req.user) {
       await order.setUser(req.user);
     }
 
-    const cart = items.map(item => {
+    const cart = items.map(async item => {
+      item.price = await Product.getPrice(item.id);
       item.orderId = order.id;
       item.productId = item.id;
       return item;
