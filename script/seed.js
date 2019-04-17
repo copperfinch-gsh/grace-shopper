@@ -43,7 +43,9 @@ async function seed() {
       price: 2499,
       color: 'sunburst',
       manufacturer: 'Gibson',
-      quantity: 2000
+      quantity: 2000,
+      imageUrl:
+        'https://media.guitarcenter.com/is/image/MMGS7/Les-Paul-Traditional-2018-Electric-Guitar-Heritage-Cherry-Sunburst-Vintage-White-Pearl-Pickguard/K35708000001001-00-500x500.jpg'
     }),
     Product.create({
       name: 'Stratocaster',
@@ -53,7 +55,9 @@ async function seed() {
       price: 1000,
       color: 'seafoam green',
       manufacturer: 'Fender',
-      quantity: 3000
+      quantity: 3000,
+      imageUrl:
+        'https://media.guitarcenter.com/is/image/MMGS7/Limited-Edition-Standard-Stratocaster-Maple-Fingerboard-Electric-Guitar-Sea-Foam-Pearl/K46430000001000-00-500x500.jpg'
     }),
     Product.create({
       name: 'Academy 10',
@@ -63,7 +67,9 @@ async function seed() {
       price: 499,
       color: 'natural',
       manufacturer: 'Taylor',
-      quantity: 3000
+      quantity: 3000,
+      imageUrl:
+        'https://www.taylorguitars.com/sites/default/files/styles/guitar_feature/public/thumbnail-dreadnought-350x350.jpg?itok=kFTs84tD'
     }),
     Product.create({
       name: "Builder's Edition 517",
@@ -73,7 +79,9 @@ async function seed() {
       price: 2699,
       color: 'natural',
       manufacturer: 'Taylor',
-      quantity: 1500
+      quantity: 1500,
+      imageUrl:
+        'https://cdn11.bigcommerce.com/s-8wy6p2/images/stencil/1000x1000/products/6809/46299/517angle__71053.1548027534.jpg?c=2'
     }),
     Product.create({
       name: 'AF55',
@@ -83,7 +91,9 @@ async function seed() {
       price: 329,
       color: 'tobacco',
       manufacturer: 'Ibanez',
-      quantity: 1200
+      quantity: 1200,
+      imageUrl:
+        'https://images-na.ssl-images-amazon.com/images/I/71vpNkIotjL._SY679_.jpg'
     }),
     Product.create({
       name: 'Lightning Bolt Strap',
@@ -93,7 +103,9 @@ async function seed() {
       price: 16.99,
       color: 'Ferrari Red',
       manufacturer: 'Gibson',
-      quantity: 150
+      quantity: 150,
+      imageUrl:
+        'https://d1aeri3ty3izns.cloudfront.net/media/2/23176/1200/preview.jpg'
     }),
     Product.create({
       name: 'Switchblade Guitar Strap',
@@ -103,7 +115,8 @@ async function seed() {
       price: 129.99,
       color: 'Black',
       manufacturer: 'Gibson',
-      quantity: 150
+      quantity: 150,
+      imageUrl: 'https://images.samash.com/sa/GAS/GASSWBLKX-P.fpx?cvt=jpg'
     }),
     Product.create({
       name: 'Gator Picks (set of 12)',
@@ -113,7 +126,9 @@ async function seed() {
       price: 3.79,
       color: 'various',
       manufacturer: 'Dunlop',
-      quantity: 150
+      quantity: 150,
+      imageUrl:
+        'https://media.guitarcenter.com/is/image/MMGS7/Gator-Grip-Standard-Guitar-Picks-.58-mm-6-Dozen/110310000427160-00-500x500.jpg'
     })
   ])
 
