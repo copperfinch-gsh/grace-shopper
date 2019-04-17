@@ -1,15 +1,13 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
 
 const sampleCart = [
   {id: 1, name: 'Strat', imageUrl: '', price: 20, quantity: 1}
 ]
 
-export default class Cart extends Component {
+class Cart extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      cart: sampleCart
-    }
   }
 
   render() {
@@ -21,7 +19,7 @@ export default class Cart extends Component {
           }
         `}</style>
         <h3>Shopping Cart:</h3>
-        {this.state.cart.map(item => {
+        {this.props.cart.map(item => {
           return (
             <div key={item.id}>
               <div>
@@ -47,3 +45,9 @@ export default class Cart extends Component {
     )
   }
 }
+
+const mapStateToProps = state => ({
+  cart: state.cart
+})
+
+export default connect(mapStateToProps)(Cart)
