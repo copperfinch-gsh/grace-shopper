@@ -29,8 +29,10 @@ router.post('/', async (req, res, next) => {
       let itemToDB = {};
 
       itemToDB.price = await Product.getPrice(Number(item.id));
+      console.log(itemToDB.price);
       itemToDB.orderId = order.id;
       itemToDB.productId = item.id;
+      itemToDB.quantity = item.quantity;
 
       lineItems.push(itemToDB);
     }
@@ -46,7 +48,7 @@ router.post('/', async (req, res, next) => {
 
     await LineItem.bulkCreate(lineItems);
 
-    res.status(201).send(order);
+    res.sendStatus(201);
   } catch (err) {
     next(err);
   }
