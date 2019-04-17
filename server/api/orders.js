@@ -16,8 +16,6 @@ router.post('/', async (req, res, next) => {
     const items = req.body.items;
     const order = await Order.create();
 
-    console.log('ITEMSSSS', items);
-
     //grab user
     if (req.user) {
       await order.setUser(req.user);

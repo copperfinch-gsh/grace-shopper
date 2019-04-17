@@ -44,7 +44,6 @@ const Product = db.define('product', {
 
 Product.getPrice = async function(id) {
   const product = await this.findByPk(id);
-  console.log('PRODUCTTT', product);
   return product.price;
 };
 
