@@ -1,7 +1,8 @@
-import React from 'react'
-import {connect} from 'react-redux'
+import React from 'react';
+import { connect } from 'react-redux';
+import { updateCart } from '../store/cart';
 
-const Cart = ({cartItems}) => {
+const Cart = ({ cartItems, handleChange }) => {
   return (
     <div className="container-fluid">
       <style jsx>{`
@@ -21,23 +22,51 @@ const Cart = ({cartItems}) => {
             <div> price: {item.price} </div>
             <div>
               {' '}
-              <select>
-                <option value="1" selected>
-                  1
-                </option>
-                <option value="2">2</option>
-                <option value="3">3</option>
+              <select onChange={() => handleChange(item)}>
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(number => {
+                  return (
+                    <option
+                      key={number}
+                      value={number}
+                      selected={
+                        item.desiredQuantity &&
+                        number === Number(item.desiredQuantity)
+                          ? 'selected'
+                          : ''
+                      }
+                    >
+                      {number}
+                    </option>
+                  );
+                })}
               </select>{' '}
             </div>
           </div>
-        )
+        );
       })}
     </div>
-  )
-}
+  );
+};
 
 const mapStateToProps = state => ({
   cartItems: state.cart
-})
+});
 
-export default connect(mapStateToProps)(Cart)
+const mapDispatchToProps = dispatch => {
+  return {
+    editCar: product => {
+      dispatch(updateCart(product));
+    },
+    handleChange: (event, product) => {
+      const value = event.target.value;
+      dispatch(
+        updateCart({
+          product,
+          desiredQuantity: value
+        })
+      );
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

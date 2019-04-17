@@ -1,63 +1,53 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {getProduct} from '../store/products'
-import {updateCart} from '../store/cart'
-import {Button} from 'react-bootstrap'
-import Card from 'react-bootstrap/Card'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { getProduct } from '../store/products';
+import { updateCart } from '../store/cart';
+import SingleProduct from './SingleProduct';
 
 class AllProducts extends Component {
-  async componentDidMount() {
-    await this.props.getAllProducts()
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedNum: 1
+    };
   }
-  render() {
-    const {products, addToCart} = this.props
 
+  async componentDidMount() {
+    await this.props.getAllProducts();
+  }
+
+  render() {
+    console.log('render');
+    const { products, addToCart } = this.props;
     return (
       <div>
         {products.map(product => (
-          <div key={product.id}>
-            <Card bg="info" text="white" style={{width: '18rem'}}>
-              <Card.Img
-                style={{width: '18rem'}}
-                variant="top"
-                src={product.imageUrl}
-              />
-              <Card.Body bg="danger">
-                <ul>
-                  <li>
-                    {product.manufacturer} {product.name}
-                  </li>
-                  <li>Price: ${product.price}</li>
-                </ul>
-
-                <Button onClick={() => addToCart(product)} variant="primary">
-                  Add to Cart
-                </Button>
-              </Card.Body>
-            </Card>
-            <br />
-          </div>
+          <SingleProduct
+            key={product.id}
+            product={product}
+            addToCart={addToCart}
+          />
         ))}
       </div>
-    )
+    );
   }
 }
 
 const mapState = state => {
   return {
     products: state.products
-  }
-}
+  };
+};
 
 const mapDispatch = dispatch => {
   return {
     getAllProducts: () => {
-      dispatch(getProduct())
+      dispatch(getProduct());
     },
     addToCart: product => {
-      dispatch(updateCart(product))
+      dispatch(updateCart(product));
     }
-  }
-}
+  };
+};
 
-export default connect(mapState, mapDispatch)(AllProducts)
+export default connect(mapState, mapDispatch)(AllProducts);
