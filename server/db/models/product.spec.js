@@ -1,8 +1,12 @@
 /* global describe beforeEach it */
 
-const { expect } = require('chai');
+const chai = require('chai');
+const expect = chai.expect;
 const db = require('../index');
 const Product = db.model('product');
+const chaiAsPromised = require('chai-as-promised');
+
+chai.use(chaiAsPromised);
 
 describe('Product model', () => {
   beforeEach(() => {
@@ -21,11 +25,11 @@ describe('Product model', () => {
       });
 
       it('returns the price', () => {
-        expect(Product.getPrice(1).to.be.equal(2000));
+        expect(Product.getPrice(1)).to.eventually.equal(2000);
       });
 
       it('if the product id does not exist, return null', () => {
-        expect(Product.getPrice(2).to.equal(null));
+        expect(Product.getPrice(2)).to.eventually.equal(null);
       });
     }); // end describe('correctPassword')
   }); // end describe('instanceMethods')

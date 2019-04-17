@@ -44,7 +44,8 @@ const Product = db.define('product', {
 
 Product.getPrice = async function(id) {
   const product = await this.findByPk(id);
-  return product.price;
+  if (product) return product.price;
+  return null;
 };
 
 module.exports = Product;
