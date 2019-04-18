@@ -1,6 +1,7 @@
 import React from 'react';
+import { Button } from 'react-bootstrap';
 
-const CartProduct = ({ item, handleChange }) => {
+const CartProduct = ({ item, handleChange, deleteItem }) => {
   return (
     <div>
       <div>
@@ -30,6 +31,14 @@ const CartProduct = ({ item, handleChange }) => {
           })}
         </select>{' '}
       </div>
+      <Button
+        variant="danger"
+        onClick={() => {
+          deleteItem(item);
+        }}
+      >
+        Delete
+      </Button>
     </div>
   );
 };

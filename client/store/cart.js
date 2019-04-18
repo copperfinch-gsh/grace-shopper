@@ -5,6 +5,7 @@ import axios from 'axios';
 
 const ADD_TO_CART = 'ADD_TO_CART';
 const UPDATE_CART = 'UPDATE_CART';
+const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 
 const SUBMIT_CART = 'SUBMIT_CART';
 
@@ -41,6 +42,11 @@ export const submitCartThunk = items => async dispatch => {
     console.error(err);
   }
 };
+
+export const removeFromCart = payload => ({
+  type: REMOVE_FROM_CART,
+  payload
+});
 
 /**
  *
@@ -85,6 +91,12 @@ export default (state = initialState, action) => {
     case SUBMIT_CART:
       newState.cartProducts = [];
       newState.numProducts = 0;
+      return newState;
+    case REMOVE_FROM_CART:
+      newState.cartProducts = newState.cartProducts.filter(
+        item => item.id !== action.payload.id
+      );
+      newState.numProducts -= action.payload.desiredQuantity;
       return newState;
     default:
       return state;

@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { editCart, submitCartThunk } from '../store/cart';
+import { editCart, submitCartThunk, removeFromCart } from '../store/cart';
 import CartProduct from './CartProduct';
 import { Button } from 'react-bootstrap';
 
-const Cart = ({ cartItems, handleChange, handleClick }) => {
+const Cart = ({ cartItems, handleChange, handleClick, deleteCartProduct }) => {
   return (
     <div className="container-fluid">
       <style jsx>{`
@@ -15,7 +15,12 @@ const Cart = ({ cartItems, handleChange, handleClick }) => {
       <h3>Shopping Cart:</h3>
       {cartItems.map(item => {
         return (
-          <CartProduct key={item.id} item={item} handleChange={handleChange} />
+          <CartProduct
+            key={item.id}
+            item={item}
+            handleChange={handleChange}
+            deleteItem={deleteCartProduct}
+          />
         );
       })}
       <Button
@@ -45,6 +50,9 @@ const mapDispatchToProps = dispatch => {
     },
     handleClick: cartItems => {
       dispatch(submitCartThunk({ items: cartItems }));
+    },
+    deleteCartProduct: product => {
+      dispatch(removeFromCart(product));
     }
   };
 };
