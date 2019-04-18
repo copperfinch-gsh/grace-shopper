@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Login, Signup, UserHome, Cart } from './components';
+import { Login, Signup, Cart, UserAccountInfo } from './components';
 import AllProducts from './components/AllProducts';
 import { me } from './store';
 
@@ -21,12 +21,12 @@ class Routes extends Component {
       <Switch>
         <Route exact path="/" component={AllProducts} />
         <Route exact path="/cart" component={Cart} />
+        <Route path="/home" component={UserAccountInfo} />
 
         <Route path="/products" component={AllProducts} />
         {isLoggedIn ? (
           <div>
             <Redirect from="/login" to="/" />
-            <Route path="/home" component={UserHome} />
           </div>
         ) : (
           <div>
