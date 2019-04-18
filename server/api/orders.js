@@ -29,22 +29,12 @@ router.post('/', async (req, res, next) => {
       let itemToDB = {};
 
       itemToDB.price = await Product.getPrice(Number(item.id));
-      console.log(itemToDB.price);
       itemToDB.orderId = order.id;
       itemToDB.productId = item.id;
       itemToDB.quantity = item.quantity;
 
       lineItems.push(itemToDB);
     }
-
-    // const cart = items.map(async item => {
-    //   console.log('SINGLE ITEMMMM', item);
-    //   item.price = await Product.getPrice(Number(item.id));
-    //   item.orderId = order.id;
-    //   item.productId = item.id;
-    //   console.log('PRODUCTT IDDD', item.productId);
-    //   return item;
-    // });
 
     await LineItem.bulkCreate(lineItems);
 
