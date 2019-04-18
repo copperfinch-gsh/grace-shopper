@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { editCart, deleteFromCart } from '../store/cart';
+import { editCart, removeFromCart } from '../store/cart';
 import CartProduct from './CartProduct';
 
 const Cart = ({ cartItems, handleChange, deleteCartProduct }) => {
@@ -42,7 +42,7 @@ const mapDispatchToProps = dispatch => {
       );
     },
     deleteCartProduct: product => {
-      dispatch(deleteFromCart(product));
+      dispatch(removeFromCart(product));
     }
   };
 };

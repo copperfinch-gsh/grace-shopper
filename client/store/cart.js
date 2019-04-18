@@ -25,7 +25,7 @@ export const editCart = payload => ({
   payload
 });
 
-export const deleteFromCart = payload => ({
+export const removeFromCart = payload => ({
   type: REMOVE_FROM_CART,
   payload
 });
