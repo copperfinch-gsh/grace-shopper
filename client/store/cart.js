@@ -1,3 +1,4 @@
+import axios from 'axios';
 /**
  * ACTION TYPES
  */
@@ -5,6 +6,8 @@
 const ADD_TO_CART = 'ADD_TO_CART';
 const UPDATE_CART = 'UPDATE_CART';
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
+
+const SUBMIT_CART = 'SUBMIT_CART';
 
 const initialState = {
   cartProducts: [],
@@ -25,20 +28,36 @@ export const editCart = payload => ({
   payload
 });
 
+const submitCart = payload => ({
+  type: SUBMIT_CART,
+  payload
+});
+
+export const submitCartThunk = items => async dispatch => {
+  try {
+    const res = await axios.post('/api/orders', items);
+    console.log(res);
+    dispatch(submitCart(res.data));
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 export const removeFromCart = payload => ({
   type: REMOVE_FROM_CART,
   payload
 });
 
 /**
+ *
  * REDUCER
  */
 
 export default (state = initialState, action) => {
   let newState = { ...state };
+  let altered = false;
   switch (action.type) {
     case ADD_TO_CART:
-      let altered = false;
       newState.cartProducts = newState.cartProducts.map(item => {
         if (item.id === action.payload.product.id) {
           item.desiredQuantity += Number(action.payload.desiredQuantity);
@@ -68,6 +87,10 @@ export default (state = initialState, action) => {
           return item;
         }
       });
+      return newState;
+    case SUBMIT_CART:
+      newState.cartProducts = [];
+      newState.numProducts = 0;
       return newState;
     case REMOVE_FROM_CART:
       newState.cartProducts = newState.cartProducts.filter(

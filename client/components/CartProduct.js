@@ -9,7 +9,7 @@ const CartProduct = ({ item, handleChange, deleteItem }) => {
         <img src={item.imageUrl} alt="item image" />{' '}
       </div>
       <div> name: {item.name} </div>
-      <div> price: {item.price * item.desiredQuantity} </div>
+      <div> price: ${item.price * item.desiredQuantity / 100} </div>
       <div>
         {' '}
         <select onChange={event => handleChange(event, item)}>

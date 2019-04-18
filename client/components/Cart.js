@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { editCart, removeFromCart } from '../store/cart';
+import { editCart, submitCartThunk, removeFromCart } from '../store/cart';
 import CartProduct from './CartProduct';
+import { Button } from 'react-bootstrap';
 
-const Cart = ({ cartItems, handleChange, deleteCartProduct }) => {
+const Cart = ({ cartItems, handleChange, handleClick, deleteCartProduct }) => {
   return (
     <div className="container-fluid">
       <style jsx>{`
@@ -22,6 +23,14 @@ const Cart = ({ cartItems, handleChange, deleteCartProduct }) => {
           />
         );
       })}
+      {cartItems.length > 0 && (
+        <Button
+          as="input"
+          type="button"
+          value="Checkout"
+          onClick={() => handleClick(cartItems)}
+        />
+      )}
     </div>
   );
 };
@@ -40,6 +49,9 @@ const mapDispatchToProps = dispatch => {
           desiredQuantity: value
         })
       );
+    },
+    handleClick: cartItems => {
+      dispatch(submitCartThunk({ items: cartItems }));
     },
     deleteCartProduct: product => {
       dispatch(removeFromCart(product));

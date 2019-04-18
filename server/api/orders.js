@@ -31,12 +31,12 @@ router.post('/', async (req, res, next) => {
       itemToDB.price = await Product.getPrice(Number(item.id));
       itemToDB.orderId = order.id;
       itemToDB.productId = item.id;
-      itemToDB.quantity = item.quantity;
+      itemToDB.quantity = item.desiredQuantity;
 
       lineItems.push(itemToDB);
     }
 
-    await LineItem.bulkCreate(lineItems);
+    const lineItemArr = await LineItem.bulkCreate(lineItems);
 
     res.sendStatus(201);
   } catch (err) {
