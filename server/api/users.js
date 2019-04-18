@@ -17,9 +17,9 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.get('/orders', async (req, res, next) => {
+router.get('/:id/orders', async (req, res, next) => {
   try {
-    if (req.user) {
+    if (req.user && Number(req.user.id) === Number(req.params.id)) {
       const orders = await Order.findAll({
         include: [
           { model: Product, attributes: ['name', 'color', 'manufacturer'] }
