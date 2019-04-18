@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { editCart } from '../store/cart';
+import { editCart, deleteFromCart } from '../store/cart';
 import CartProduct from './CartProduct';
 
-const Cart = ({ cartItems, handleChange }) => {
+const Cart = ({ cartItems, handleChange, deleteCartProduct }) => {
   return (
     <div className="container-fluid">
       <style jsx>{`
@@ -14,7 +14,12 @@ const Cart = ({ cartItems, handleChange }) => {
       <h3>Shopping Cart:</h3>
       {cartItems.map(item => {
         return (
-          <CartProduct key={item.id} item={item} handleChange={handleChange} />
+          <CartProduct
+            key={item.id}
+            item={item}
+            handleChange={handleChange}
+            deleteItem={deleteCartProduct}
+          />
         );
       })}
     </div>
@@ -35,6 +40,9 @@ const mapDispatchToProps = dispatch => {
           desiredQuantity: value
         })
       );
+    },
+    deleteCartProduct: product => {
+      dispatch(deleteFromCart(product));
     }
   };
 };

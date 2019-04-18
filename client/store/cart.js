@@ -4,6 +4,7 @@
 
 const ADD_TO_CART = 'ADD_TO_CART';
 const UPDATE_CART = 'UPDATE_CART';
+const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 
 const initialState = {
   cartProducts: [],
@@ -21,6 +22,11 @@ export const setCart = payload => ({
 
 export const editCart = payload => ({
   type: UPDATE_CART,
+  payload
+});
+
+export const deleteFromCart = payload => ({
+  type: REMOVE_FROM_CART,
   payload
 });
 
@@ -62,6 +68,12 @@ export default (state = initialState, action) => {
           return item;
         }
       });
+      return newState;
+    case REMOVE_FROM_CART:
+      newState.cartProducts = newState.cartProducts.filter(
+        item => item.id !== action.payload.id
+      );
+      newState.numProducts -= action.payload.desiredQuantity;
       return newState;
     default:
       return state;
