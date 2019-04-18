@@ -4,13 +4,14 @@ module.exports = router;
 
 router.get('/', async (req, res, next) => {
   try {
-    const users = await User.findAll({
-      // explicitly select only the id and email fields - even though
-      // users' passwords are encrypted, it won't help if we just
-      // send everything to anyone who asks!
-      attributes: ['id', 'email', 'firstName']
-    });
-    res.json(users);
+    if (req.user && req.user.isAdmin) {
+      const users = await User.findAll({
+        attributes: ['id', 'email', 'firstName', 'lastName']
+      });
+      res.json(users);
+    } else {
+      res.sendStatus(401);
+    }
   } catch (err) {
     next(err);
   }
@@ -29,7 +30,7 @@ router.get('/orders', async (req, res, next) => {
       });
       res.status(200).send(orders);
     } else {
-      res.send(404);
+      res.send(401);
     }
   } catch (error) {
     next(error);
