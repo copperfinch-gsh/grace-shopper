@@ -1,9 +1,12 @@
+import axios from 'axios';
 /**
  * ACTION TYPES
  */
 
 const ADD_TO_CART = 'ADD_TO_CART';
 const UPDATE_CART = 'UPDATE_CART';
+
+const SUBMIT_CART = 'SUBMIT_CART';
 
 const initialState = {
   cartProducts: [],
@@ -24,15 +27,31 @@ export const editCart = payload => ({
   payload
 });
 
+const sendCart = payload => ({
+  type: SUBMIT_CART,
+  payload
+});
+
+export const sendCartThunk = items => async dispatch => {
+  try {
+    const res = await axios.post('/api/orders', items);
+    console.log(res);
+    dispatch(sendCart(res.data));
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 /**
+ *
  * REDUCER
  */
 
 export default (state = initialState, action) => {
   let newState = { ...state };
+  let altered = false;
   switch (action.type) {
     case ADD_TO_CART:
-      let altered = false;
       newState.cartProducts = newState.cartProducts.map(item => {
         if (item.id === action.payload.product.id) {
           item.desiredQuantity += Number(action.payload.desiredQuantity);
@@ -62,6 +81,10 @@ export default (state = initialState, action) => {
           return item;
         }
       });
+      return newState;
+    case SUBMIT_CART:
+      newState.cartProducts = [];
+      newState.numProducts = 0;
       return newState;
     default:
       return state;

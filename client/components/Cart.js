@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { editCart } from '../store/cart';
+import { editCart, sendCartThunk } from '../store/cart';
 import CartProduct from './CartProduct';
+import { Button } from 'react-bootstrap';
 
-const Cart = ({ cartItems, handleChange }) => {
+const Cart = ({ cartItems, handleChange, handleClick }) => {
   return (
     <div className="container-fluid">
       <style jsx>{`
@@ -17,6 +18,12 @@ const Cart = ({ cartItems, handleChange }) => {
           <CartProduct key={item.id} item={item} handleChange={handleChange} />
         );
       })}
+      <Button
+        as="input"
+        type="button"
+        value="Submit"
+        onClick={() => handleClick(cartItems)}
+      />
     </div>
   );
 };
@@ -35,6 +42,9 @@ const mapDispatchToProps = dispatch => {
           desiredQuantity: value
         })
       );
+    },
+    handleClick: cartItems => {
+      dispatch(sendCartThunk({ items: cartItems }));
     }
   };
 };
