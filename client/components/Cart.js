@@ -23,12 +23,14 @@ const Cart = ({ cartItems, handleChange, handleClick, deleteCartProduct }) => {
           />
         );
       })}
-      <Button
-        as="input"
-        type="button"
-        value="Checkout"
-        onClick={() => handleClick(cartItems)}
-      />
+      {cartItems.length > 0 && (
+        <Button
+          as="input"
+          type="button"
+          value="Checkout"
+          onClick={() => handleClick(cartItems)}
+        />
+      )}
     </div>
   );
 };
