@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../db');
 
 const LineItem = db.define('lineItem', {
-  price: {
+  unitPrice: {
     type: Sequelize.INTEGER,
     defaultValue: 0,
     validate: {
