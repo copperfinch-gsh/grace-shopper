@@ -40,7 +40,7 @@ class SingleProduct extends Component {
               <li>
                 {product.manufacturer} {product.name}
               </li>
-              <li>Price: ${product.price}</li>
+              <li>Price: ${product.price / 100}</li>
             </ul>
 
             <Button variant="primary" onClick={() => this.handleClick(product)}>

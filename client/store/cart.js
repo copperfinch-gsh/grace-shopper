@@ -27,16 +27,16 @@ export const editCart = payload => ({
   payload
 });
 
-const sendCart = payload => ({
+const submitCart = payload => ({
   type: SUBMIT_CART,
   payload
 });
 
-export const sendCartThunk = items => async dispatch => {
+export const submitCartThunk = items => async dispatch => {
   try {
     const res = await axios.post('/api/orders', items);
     console.log(res);
-    dispatch(sendCart(res.data));
+    dispatch(submitCart(res.data));
   } catch (err) {
     console.error(err);
   }

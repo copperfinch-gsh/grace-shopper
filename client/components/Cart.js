@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { editCart, sendCartThunk } from '../store/cart';
+import { editCart, submitCartThunk } from '../store/cart';
 import CartProduct from './CartProduct';
 import { Button } from 'react-bootstrap';
 
@@ -21,7 +21,7 @@ const Cart = ({ cartItems, handleChange, handleClick }) => {
       <Button
         as="input"
         type="button"
-        value="Submit"
+        value="Checkout"
         onClick={() => handleClick(cartItems)}
       />
     </div>
@@ -44,7 +44,7 @@ const mapDispatchToProps = dispatch => {
       );
     },
     handleClick: cartItems => {
-      dispatch(sendCartThunk({ items: cartItems }));
+      dispatch(submitCartThunk({ items: cartItems }));
     }
   };
 };
