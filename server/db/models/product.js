@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize')
-const db = require('../db')
+const Sequelize = require('sequelize');
+const db = require('../db');
 
 const Product = db.define('product', {
   name: {
@@ -17,13 +17,12 @@ const Product = db.define('product', {
   description: {
     type: Sequelize.TEXT
   },
-  type: {
-    type: Sequelize.STRING
-  },
   price: {
-    type: Sequelize.FLOAT,
+    type: Sequelize.INTEGER,
     defaultValue: 0,
-    validate: {}
+    validate: {
+      min: 0
+    }
   },
   color: {
     type: Sequelize.STRING
@@ -38,6 +37,12 @@ const Product = db.define('product', {
       min: 0
     }
   }
-})
+});
 
-module.exports = Product
+Product.getPrice = async function(id) {
+  const product = await this.findByPk(id);
+  if (product) return product.price;
+  return null;
+};
+
+module.exports = Product;

@@ -1,39 +1,45 @@
-const router = require('express').Router()
-const {Order, OrderHistory} = require('../db/models')
-module.exports = router
+const router = require('express').Router();
+const { Order, LineItem, Product } = require('../db/models');
+module.exports = router;
 
 router.get('/', async (req, res, next) => {
   try {
-    const orders = await Order.findAll()
-    res.json(orders)
+    const orders = await Order.findAll();
+    res.json(orders);
   } catch (err) {
-    next(err)
+    next(err);
   }
-})
+});
 
 router.post('/', async (req, res, next) => {
   try {
-    const total = Number(req.body.total)
-    const items = req.body.items
-    const order = await Order.create({
-      total
-    })
+    const items = req.body.items;
+    const order = await Order.create();
 
     //grab user
     if (req.user) {
-      await order.setUser(req.user)
+      await order.setUser(req.user);
     }
 
-    const cart = items.map(item => {
-      item.orderId = order.id
-      item.productId = item.id
-      return item
-    })
+    //create new items array, only taking the product id from the items array in the req body
+    let lineItems = [];
 
-    await OrderHistory.bulkCreate(cart)
+    for (let i = 0; i < items.length; i++) {
+      let item = items[i];
+      let itemToDB = {};
 
-    res.status(201).send(order)
+      itemToDB.price = await Product.getPrice(Number(item.id));
+      itemToDB.orderId = order.id;
+      itemToDB.productId = item.id;
+      itemToDB.quantity = item.quantity;
+
+      lineItems.push(itemToDB);
+    }
+
+    await LineItem.bulkCreate(lineItems);
+
+    res.sendStatus(201);
   } catch (err) {
-    next(err)
+    next(err);
   }
-})
+});
