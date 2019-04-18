@@ -6,7 +6,7 @@ import { logout } from '../store';
 
 const Navbar = ({ handleClick, isLoggedIn, cart }) => (
   <div>
-    <h1>GRACE SHREDDER</h1>
+    <Link to="/products"> GRACE SHREDDER</Link>
     <nav>
       {isLoggedIn ? (
         <div>
