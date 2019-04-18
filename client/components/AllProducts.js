@@ -14,7 +14,6 @@ class AllProducts extends Component {
   }
 
   render() {
-    console.log('render');
     const { products, addToCart } = this.props;
     return (
       <div>
