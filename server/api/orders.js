@@ -28,7 +28,7 @@ router.post('/', async (req, res, next) => {
       let item = items[i];
       let itemToDB = {};
 
-      itemToDB.price = await Product.getPrice(Number(item.id));
+      itemToDB.unitPrice = await Product.getPrice(Number(item.id));
       itemToDB.orderId = order.id;
       itemToDB.productId = item.id;
       itemToDB.quantity = item.desiredQuantity;
