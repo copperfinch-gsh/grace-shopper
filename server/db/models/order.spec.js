@@ -24,15 +24,14 @@ describe('Order model', () => {
 
           const order = await Order.create({});
 
-          order.setUser(cody);
-          console.log('order:', order);
+          await order.setUser(cody);
         } catch (error) {
           console.error(error);
         }
       });
 
       it('returns the cart', () => {
-        return Order.findCart(1).then(data => expect(data).to.equal(1));
+        return Order.findCart(1).then(data => expect(data.userId).to.equal(1));
       });
 
       it('if the cart does not exist, return null', () => {

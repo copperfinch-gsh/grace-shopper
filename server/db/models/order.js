@@ -15,7 +15,7 @@ Order.findCart = async function(userId) {
       isCart: true
     }
   });
-  console.log('cart:', cart);
+
   return cart;
 };
 
