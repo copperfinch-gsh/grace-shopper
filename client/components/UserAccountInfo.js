@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 /**
  * COMPONENT
  */
-const UserAccountInfo = props => {
+export const UserAccountInfo = props => {
   const { firstName } = props.user;
 
   return (
