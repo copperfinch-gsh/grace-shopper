@@ -14,9 +14,8 @@ router.get('/', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     //one item at a time coming to post route
-    const item = req.body.item;
+    const item = req.body;
     let order;
-
     //grab user
     if (req.user) {
       //find 'cart' order if it exits
@@ -36,13 +35,18 @@ router.post('/', async (req, res, next) => {
     }
 
     //this will be the lineItem to be sent in
-    const itemToDB = {};
-    itemToDB.unitPrice = await Product.getPrice(Number(item.id));
-    itemToDB.orderId = order.id;
-    itemToDB.productId = item.id;
-    itemToDB.quantity = item.desiredQuantity;
 
-    const newLineItem = await LineItem.create(itemToDB);
+    const unitPrice = await Product.getPrice(Number(item.id));
+    const quantity = item.desiredQuantity;
+
+    const [newLineItem, wasCreated] = await LineItem.findOrCreate({
+      where: {
+        orderId: order.id,
+        productId: item.id
+      }
+    });
+
+    await newLineItem.update({ quantity: quantity, unitPrice: unitPrice });
 
     res.status(201).json(newLineItem);
   } catch (err) {

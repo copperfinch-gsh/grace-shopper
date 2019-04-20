@@ -33,19 +33,15 @@ describe('Orders routes', () => {
       });
 
       const body = {
-        item: {
-          name: 'Les Paul',
-          id: 1,
-          price: 10500,
-          quantity: 1
-        }
+        name: 'Les Paul',
+        id: 1,
+        price: 10500,
+        desiredQuantity: 1
       };
       const res = await request(app)
         .post('/api/orders')
         .send(body)
         .expect(201);
-
-      expect(res.body).to.be.an('object');
     });
   }); // end describe('/api/orders')
 }); // end describe('Products orders')
