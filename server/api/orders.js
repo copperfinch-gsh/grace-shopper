@@ -15,7 +15,7 @@ router.post('/', async (req, res, next) => {
   try {
     //one item at a time coming to post route
     const item = req.body.product;
-    const quantity = req.body.desiredQuantity;
+    let quantity = req.body.desiredQuantity;
     let order;
     //grab user
     if (req.user) {
@@ -46,6 +46,9 @@ router.post('/', async (req, res, next) => {
       }
     });
 
+    if (!wasCreated) {
+      quantity += newLineItem.quantity;
+    }
     await newLineItem.update({ quantity: quantity, unitPrice: unitPrice });
 
     res.status(201).json(newLineItem);
