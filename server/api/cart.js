@@ -10,7 +10,7 @@ router.get('/', async (req, res, next) => {
       const data = await Order.getFullCart(req.user.id);
       // if the cart is empty, set the cart to equal the default session cart
       if (!data) {
-        cart = req.session.cart;
+        cart = { cartProducts: [], numProducts: 0 }; // merging guest/login cart might start here
       } else {
         // otherwise, populate the cart with the lineItems from the full cart you waited for
         const products = data.products;

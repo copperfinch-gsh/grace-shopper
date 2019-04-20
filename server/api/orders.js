@@ -38,8 +38,6 @@ router.post('/', async (req, res, next) => {
       req.session.cart.numProducts += quantity;
     }
 
-    //this will be the lineItem to be sent in
-
     const unitPrice = await Product.getPrice(Number(item.id));
 
     const [newLineItem, wasCreated] = await LineItem.findOrCreate({
