@@ -66,6 +66,13 @@ const createApp = () => {
   app.use(passport.initialize());
   app.use(passport.session());
 
+  app.use((req, res, next) => {
+    if (!req.session.cart) {
+      req.session.cart = { cartProducts: [], numProducts: 0 };
+    }
+    next();
+  });
+
   // auth and api routes
   app.use('/auth', require('./auth'));
   app.use('/api', require('./api'));
