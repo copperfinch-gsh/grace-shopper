@@ -40,7 +40,7 @@ describe('Orders routes', () => {
         },
         desiredQuantity: 1
       };
-      await request(app)
+      request(app)
         .post('/api/orders')
         .send(body)
         .expect(201);
