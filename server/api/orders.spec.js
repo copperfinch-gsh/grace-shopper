@@ -31,26 +31,14 @@ describe('Orders routes', () => {
         price: 10500,
         quantity: 1
       });
-      await Product.create({
-        name: 'Strat',
-        price: 30500,
-        quantity: 3
-      });
+
       const body = {
-        items: [
-          {
-            name: 'Les Paul',
-            id: 1,
-            price: 10500,
-            quantity: 1
-          },
-          {
-            name: 'Strat',
-            id: 2,
-            price: 30500,
-            quantity: 3
-          }
-        ]
+        item: {
+          name: 'Les Paul',
+          id: 1,
+          price: 10500,
+          quantity: 1
+        }
       };
       const res = await request(app)
         .post('/api/orders')
