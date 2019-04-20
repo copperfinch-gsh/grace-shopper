@@ -11,6 +11,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+// eslint-disable-next-line complexity
 router.post('/', async (req, res, next) => {
   try {
     //one item at a time coming to post route
@@ -28,17 +29,14 @@ router.post('/', async (req, res, next) => {
     } else if (req.session.cart.id) {
       //if there's no logged in user, but the session cart has been added to
       order = await Order.findByPk(req.session.cart.id);
+      req.session.cart.numProducts += quantity;
     } else {
       //otherwise, we need to create a new order for the non-logged in user
       order = await Order.create();
       //establish session cart id
       req.session.cart.id = order.id;
+      req.session.cart.numProducts += quantity;
     }
-
-    //update the session cart
-    req.session.cart.cartProducts.push({ item, quantity });
-    req.session.cart.numProducts += quantity;
-    //this will be the lineItem to be sent in
 
     const unitPrice = await Product.getPrice(Number(item.id));
 
@@ -48,9 +46,32 @@ router.post('/', async (req, res, next) => {
         productId: item.id
       }
     });
+
+    // if the lineItem already exists, add the quantities (aka desiredQuantity values) to each other
     if (!wasCreated) {
       quantity += newLineItem.quantity;
     }
+    //if there is no user, set the item's desiredQuantity equal to either the original quantity passed in or the newly summed up quantity from the !wasCreated check above
+    if (!req.user) {
+      item.desiredQuantity = quantity;
+      // if the item already existed in the session cart, map through and change the desiredQuantity value on the already existent cart item in order to maintain the order of the cart
+      if (!wasCreated) {
+        req.session.cart.cartProducts = req.session.cart.cartProducts.map(
+          product => {
+            if (product.id === item.id) {
+              product.desiredQuantity = item.desiredQuantity;
+              return product;
+            }
+            return product;
+          }
+        );
+      } else {
+        // otherwise, add the new item to the cart
+        req.session.cart.cartProducts.push(item);
+      }
+    }
+
+    //update the quantity and unitPrice attributes of the lineItem
     await newLineItem.update({ quantity: quantity, unitPrice: unitPrice });
 
     res.sendStatus(201);

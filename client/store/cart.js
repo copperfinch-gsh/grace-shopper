@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { TabContainer } from 'react-bootstrap';
 /**
  * ACTION TYPES
  */
@@ -7,7 +6,7 @@ import { TabContainer } from 'react-bootstrap';
 const ADD_TO_CART = 'ADD_TO_CART';
 const UPDATE_CART = 'UPDATE_CART';
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
-
+const GET_CART = 'GET_CART';
 const SUBMIT_CART = 'SUBMIT_CART';
 
 const initialState = {
@@ -19,6 +18,11 @@ const initialState = {
  * ACTION CREATORS
  */
 
+const getCart = payload => ({
+  type: GET_CART,
+  payload
+});
+
 const addToCart = payload => ({
   type: ADD_TO_CART,
   payload
@@ -29,10 +33,19 @@ export const editCart = payload => ({
   payload
 });
 
-const submitCart = payload => ({
+export const submitCart = payload => ({
   type: SUBMIT_CART,
   payload
 });
+
+export const getCartThunk = () => async dispatch => {
+  try {
+    const res = await axios.get('/api/cart');
+    dispatch(getCart(res.data));
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 export const addToCartThunk = item => async dispatch => {
   try {
@@ -66,6 +79,10 @@ export default (state = initialState, action) => {
   let newState = { ...state };
   let altered = false;
   switch (action.type) {
+    case GET_CART:
+      newState.cartProducts = action.payload.cartProducts;
+      newState.numProducts = action.payload.numProducts;
+      return newState;
     case ADD_TO_CART:
       newState.cartProducts = newState.cartProducts.map(item => {
         if (item.id === action.payload.product.id) {
