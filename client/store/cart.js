@@ -41,7 +41,6 @@ export const submitCart = payload => ({
 export const getCartThunk = () => async dispatch => {
   try {
     const res = await axios.get('/api/cart');
-    console.log('CART: ', res.data);
     dispatch(getCart(res.data));
   } catch (error) {
     console.error(error);

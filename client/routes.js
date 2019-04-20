@@ -18,7 +18,6 @@ class Routes extends Component {
   componentDidUpdate(prevState, prevProps) {
     //if logging in, load the logged in user's cart
     if (!prevState.isLoggedIn && this.props.isLoggedIn) {
-      console.log('UPDATING ROUTES');
       this.props.loadCart();
     }
   }
