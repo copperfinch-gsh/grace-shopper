@@ -32,4 +32,8 @@ Order.getFullCart = async function(userId) {
   return cart;
 };
 
+// Order.prototype.mergeCarts = async function(guestCart){
+
+// }
+
 module.exports = Order;

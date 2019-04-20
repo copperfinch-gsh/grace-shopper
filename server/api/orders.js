@@ -56,15 +56,15 @@ router.post('/', async (req, res, next) => {
       item.desiredQuantity = quantity;
       // if the item already existed in the session cart, map through and change the desiredQuantity value on the already existent cart item in order to maintain the order of the cart
       if (!wasCreated) {
-        req.session.cart.cartProducts = req.session.cart.cartProducts.map(
-          product => {
-            if (product.id === item.id) {
-              product.desiredQuantity = item.desiredQuantity;
-              return product;
-            }
-            return product;
+        let cart = req.session.cart.cartProducts;
+        let cartLength = cart.length;
+        for (let i = 0; i < cartLength; i++) {
+          if (cart[i].id === item.id) {
+            req.session.cart.cartProducts[i].desiredQuantity =
+              item.desiredQuantity;
+            break;
           }
-        );
+        }
       } else {
         // otherwise, add the new item to the cart
         req.session.cart.cartProducts.push(item);
