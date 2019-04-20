@@ -15,38 +15,36 @@ router.post('/', async (req, res, next) => {
   try {
     //one item at a time coming to post route
     const item = req.body.item;
-    const itemToDB = {};
-    itemToDB.unitPrice = await Product.getPrice(Number(item.id));
-    itemToDB.orderId = order.id;
-    itemToDB.productId = item.id;
-    itemToDB.quantity = item.desiredQuantity;
     let order;
 
     //grab user
     if (req.user) {
       //find 'cart' order if it exits
-      //if cart order exists, set ordererId variable for lineitem to that orderid
-      //else create new order and set this user to the order
+      //else create new order
       order = (await Order.findCart(req.user.id)) || (await Order.create());
-      await order.setUser(req.user);
+
+      // if we created a new order, set the user on the session to it
+      if (!order.userId) await order.setUser(req.user);
+    } else if (req.session.cart.id) {
+      //if there's no logged in user, but the session cart has been added to
+      order = await Order.findByPk(req.session.cart.id);
+    } else {
+      //otherwise, we need to create a new order for the non-logged in user
+      order = await Order.create();
+      //establish session cart id
+      req.session.cart.id = order.id;
     }
 
-    //if there is no user on the session, // does req.session.cart.id exist ? if it does, find that order and add to it below. if it doesn't, create the order and set req.session.card.id to that order id
+    //this will be the lineItem to be sent in
+    const itemToDB = {};
+    itemToDB.unitPrice = await Product.getPrice(Number(item.id));
+    itemToDB.orderId = order.id;
+    itemToDB.productId = item.id;
+    itemToDB.quantity = item.desiredQuantity;
 
-    //create new items array, only taking the product id from the items array in the req body
+    const newLineItem = await LineItem.create(itemToDB);
 
-    let lineItems = [];
-
-    for (let i = 0; i < items.length; i++) {
-      let item = items[i];
-      let itemToDB = {};
-
-      lineItems.push(itemToDB);
-    }
-
-    const lineItemArr = await LineItem.bulkCreate(lineItems);
-
-    res.sendStatus(201);
+    res.status(201).json(newLineItem);
   } catch (err) {
     next(err);
   }
