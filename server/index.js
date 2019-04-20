@@ -67,7 +67,6 @@ const createApp = () => {
   app.use(passport.session());
 
   app.use((req, res, next) => {
-    // req.session.destroy();
     if (!req.session.cart) {
       req.session.cart = { cartProducts: [], numProducts: 0 };
     }
