@@ -51,7 +51,7 @@ router.post('/', async (req, res, next) => {
     }
     await newLineItem.update({ quantity: quantity, unitPrice: unitPrice });
 
-    res.status(201).json(newLineItem);
+    res.status(201);
   } catch (err) {
     next(err);
   }

@@ -33,12 +33,14 @@ describe('Orders routes', () => {
       });
 
       const body = {
-        name: 'Les Paul',
-        id: 1,
-        price: 10500,
+        product: {
+          name: 'Les Paul',
+          id: 1,
+          price: 10500
+        },
         desiredQuantity: 1
       };
-      const res = await request(app)
+      await request(app)
         .post('/api/orders')
         .send(body)
         .expect(201);
