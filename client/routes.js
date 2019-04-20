@@ -4,7 +4,7 @@ import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Login, Signup, Cart, UserAccountInfo } from './components';
 import AllProducts from './components/AllProducts';
-import { me } from './store';
+import { me, getCartThunk } from './store';
 
 /**
  * COMPONENT
@@ -12,6 +12,15 @@ import { me } from './store';
 class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData();
+    this.props.loadCart();
+  }
+
+  componentDidUpdate(prevState, prevProps) {
+    //if logging in, load the logged in user's cart
+    if (!prevState.isLoggedIn && this.props.isLoggedIn) {
+      console.log('UPDATING ROUTES');
+      this.props.loadCart();
+    }
   }
 
   render() {
@@ -54,6 +63,9 @@ const mapDispatch = dispatch => {
   return {
     loadInitialData() {
       dispatch(me());
+    },
+    loadCart() {
+      dispatch(getCartThunk());
     }
   };
 };
