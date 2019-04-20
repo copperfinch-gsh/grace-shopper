@@ -1,5 +1,9 @@
 body {
   font-family: sans-serif;
+  background-image: url('https://thewallpaper.co/wp-content/uploads/2016/10/HD-Guitar-Wallpapers-High-Resolution-Pictures-hd-desktop-wallpapers-amazing-images-cool-smart-phone-background-photos-download-high-quality-artworks-dual-monitors-2880x1800-768x480.jpg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-attachment: fixed;
 }
 
 a {
@@ -18,4 +22,21 @@ nav a {
 form div {
   margin: 1em;
   display: inline-block;
+}
+
+#grace {
+  font-size: 50px;
+  text-decoration: none;
+  font-family: 'Bangers', cursive;
+  color: #a30014;
+}
+
+#products {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+#product-container {
+  width: 55%;
 }

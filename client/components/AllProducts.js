@@ -16,14 +16,16 @@ class AllProducts extends Component {
   render() {
     const { products, addToCart } = this.props;
     return (
-      <div>
-        {products.map(product => (
-          <SingleProduct
-            key={product.id}
-            product={product}
-            addToCart={addToCart}
-          />
-        ))}
+      <div id="product-container">
+        <div id="products">
+          {products.map(product => (
+            <SingleProduct
+              key={product.id}
+              product={product}
+              addToCart={addToCart}
+            />
+          ))}
+        </div>
       </div>
     );
   }
