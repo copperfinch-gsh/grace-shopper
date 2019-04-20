@@ -72,7 +72,7 @@ router.post('/', async (req, res, next) => {
     }
 
     //update the quantity and unitPrice attributes of the lineItem
-    await newLineItem.update({ quantity: quantity, unitPrice: unitPrice });
+    await newLineItem.update({ quantity, unitPrice });
 
     res.sendStatus(201);
   } catch (err) {

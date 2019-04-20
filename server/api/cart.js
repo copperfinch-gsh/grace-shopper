@@ -1,16 +1,44 @@
 const router = require('express').Router();
-const { Order } = require('../db/models');
+const { Order, Product } = require('../db/models');
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
   try {
     let cart = {};
     if (req.user) {
-      //if the user exists, grab the full cart
+      let userCart = await Order.findCart(Number(req.user.id));
+
+      //if there already exists a guest cart on the session, merge the carts
+      if (req.session.cart.id) {
+        const guestCart = await Order.findOne({
+          include: [{ model: Product }],
+          where: {
+            id: req.session.cart.id,
+            isCart: true
+          }
+        });
+        if (!userCart) {
+          // if there is no user cart yet, just use the guest cart
+          userCart = guestCart;
+
+          // set the user on the guest cart to the current user
+          if (!userCart.userId) await userCart.setUser(req.user);
+        } else {
+          //if a user cart already existed, merge the two carts
+          await userCart.mergeCarts(guestCart.products);
+        }
+
+        //set req.session.cart to default so that ID doesn't exist
+        req.session.cart = { cartProducts: [], numProducts: 0 };
+      }
+
+      //grab the full cart
       const data = await Order.getFullCart(req.user.id);
-      // if the cart is empty, set the cart to equal the default session cart
       if (!data) {
-        cart = { cartProducts: [], numProducts: 0 }; // merging guest/login cart might start here
+        /* if the cart doesn't exist, set the cart to equal the default session cart
+      (this means that there was no merge, and we don't want to create a cart unless someone actually adds something to their cart )
+      */
+        cart = { cartProducts: [], numProducts: 0 };
       } else {
         // otherwise, populate the cart with the lineItems from the full cart you waited for
         const products = data.products;
