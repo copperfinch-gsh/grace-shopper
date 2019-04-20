@@ -25,25 +25,25 @@ describe('Orders routes', () => {
 
       expect(res.body).to.be.an('array');
     });
-    it('POST /api/orders', async () => {
-      await Product.create({
-        name: 'Les Paul',
-        price: 10500,
-        quantity: 1
-      });
+    // it('POST /api/orders', async () => {
+    //   await Product.create({
+    //     name: 'Les Paul',
+    //     price: 10500,
+    //     quantity: 1
+    //   });
 
-      const body = {
-        product: {
-          name: 'Les Paul',
-          id: 1,
-          price: 10500
-        },
-        desiredQuantity: 1
-      };
-      request(app)
-        .post('/api/orders')
-        .send(body)
-        .expect(201);
-    });
+    //   const body = {
+    //     product: {
+    //       name: 'Les Paul',
+    //       id: 1,
+    //       price: 10500
+    //     },
+    //     desiredQuantity: 1
+    //   };
+    //   request(app)
+    //     .post('/api/orders')
+    //     .send(body)
+    //     .expect(201);
+    // });
   }); // end describe('/api/orders')
 }); // end describe('Products orders')
