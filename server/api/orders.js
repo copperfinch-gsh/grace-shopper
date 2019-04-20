@@ -35,6 +35,9 @@ router.post('/', async (req, res, next) => {
       req.session.cart.id = order.id;
     }
 
+    //update the session cart
+    req.session.cart.cartProducts.push({ item, quantity });
+    req.session.cart.numProducts += quantity;
     //this will be the lineItem to be sent in
 
     const unitPrice = await Product.getPrice(Number(item.id));
@@ -45,13 +48,12 @@ router.post('/', async (req, res, next) => {
         productId: item.id
       }
     });
-
     if (!wasCreated) {
       quantity += newLineItem.quantity;
     }
     await newLineItem.update({ quantity: quantity, unitPrice: unitPrice });
 
-    res.status(201);
+    res.sendStatus(201);
   } catch (err) {
     next(err);
   }
