@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { TabContainer } from 'react-bootstrap';
 /**
  * ACTION TYPES
  */
@@ -18,7 +19,7 @@ const initialState = {
  * ACTION CREATORS
  */
 
-export const setCart = payload => ({
+const addToCart = payload => ({
   type: ADD_TO_CART,
   payload
 });
@@ -33,10 +34,18 @@ const submitCart = payload => ({
   payload
 });
 
+export const addToCartThunk = item => async dispatch => {
+  try {
+    await axios.post('/api/orders', item);
+    dispatch(addToCart(item));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const submitCartThunk = items => async dispatch => {
   try {
     const res = await axios.post('/api/orders', items);
-    console.log(res);
     dispatch(submitCart(res.data));
   } catch (err) {
     console.error(err);

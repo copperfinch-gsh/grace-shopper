@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getProduct } from '../store/products';
-import { setCart } from '../store/cart';
+import { addToCartThunk } from '../store/cart';
 import SingleProduct from './SingleProduct';
 
 class AllProducts extends Component {
@@ -41,7 +41,7 @@ const mapDispatch = dispatch => {
       dispatch(getProduct());
     },
     addToCart: product => {
-      dispatch(setCart(product));
+      dispatch(addToCartThunk(product));
     }
   };
 };

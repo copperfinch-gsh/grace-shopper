@@ -14,7 +14,8 @@ router.get('/', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     //one item at a time coming to post route
-    const item = req.body;
+    const item = req.body.product;
+    const quantity = req.body.desiredQuantity;
     let order;
     //grab user
     if (req.user) {
@@ -37,7 +38,6 @@ router.post('/', async (req, res, next) => {
     //this will be the lineItem to be sent in
 
     const unitPrice = await Product.getPrice(Number(item.id));
-    const quantity = item.desiredQuantity;
 
     const [newLineItem, wasCreated] = await LineItem.findOrCreate({
       where: {

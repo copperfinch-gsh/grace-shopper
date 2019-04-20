@@ -20,7 +20,7 @@ class SingleProduct extends Component {
 
   async handleClick(product) {
     await this.props.addToCart({
-      product,
+      product: product,
       desiredQuantity: this.state.selectedNum
     });
   }
