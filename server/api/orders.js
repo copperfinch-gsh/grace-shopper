@@ -79,3 +79,17 @@ router.post('/', async (req, res, next) => {
     next(err);
   }
 });
+
+router.delete('/', async (req, res, next) => {
+  try {
+    const item = req.body;
+    const lineItem = await LineItem.findOne({
+      where: { productId: item.productId, orderId: item.orderId }
+    });
+
+    await lineItem.destroy();
+    res.sendStatus(202);
+  } catch (error) {
+    next(error);
+  }
+});
