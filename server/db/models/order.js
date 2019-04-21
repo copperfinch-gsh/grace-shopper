@@ -49,6 +49,17 @@ Order.prototype.mergeCarts = async function(guestCart) {
     }
     await newLineItem.update({ quantity, unitPrice });
   }
+
+Order.getFullGuestCart = async function(cartId) {
+  const cart = await this.findOne({
+    include: [{ model: Product }],
+    where: {
+      id: cartId,
+      isCart: true
+    }
+  });
+
+  return cart;
 };
 
 module.exports = Order;
