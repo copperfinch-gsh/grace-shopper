@@ -28,7 +28,7 @@ const Cart = ({ cartItems, handleChange, handleClick, deleteCartProduct }) => {
           as="input"
           type="button"
           value="Checkout"
-          onClick={() => handleClick(cartItems)}
+          onClick={handleClick}
         />
       )}
     </div>
@@ -50,8 +50,8 @@ const mapDispatchToProps = dispatch => {
         })
       );
     },
-    handleClick: cartItems => {
-      dispatch(submitCartThunk({ items: cartItems }));
+    handleClick: () => {
+      dispatch(submitCartThunk());
     },
     deleteCartProduct: product => {
       dispatch(removeFromCart(product));

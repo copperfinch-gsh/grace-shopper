@@ -33,9 +33,8 @@ export const editCart = payload => ({
   payload
 });
 
-export const submitCart = payload => ({
-  type: SUBMIT_CART,
-  payload
+export const submitCart = () => ({
+  type: SUBMIT_CART
 });
 
 export const getCartThunk = () => async dispatch => {
@@ -56,10 +55,11 @@ export const addToCartThunk = item => async dispatch => {
   }
 };
 
-export const submitCartThunk = items => async dispatch => {
+export const submitCartThunk = () => async dispatch => {
   try {
-    const res = await axios.post('/api/orders', items);
-    dispatch(submitCart(res.data));
+    console.log('in thunk:');
+    await axios.put('/api/orders/checkout');
+    dispatch(submitCart());
   } catch (err) {
     console.error(err);
   }

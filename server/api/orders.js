@@ -80,4 +80,23 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-router.put('/orders/submit', async (req, res, next) => {});
+router.put('/checkout', async (req, res, next) => {
+  try {
+    const order = await Order.getCurrentCart(req.user, req.session.cart);
+
+    console.log('order:', order);
+
+    await order.update({ isCart: false });
+    clearSessionCart(req.session);
+
+    res.sendStatus(201);
+  } catch (error) {
+    next(error);
+  }
+});
+
+function clearSessionCart(session) {
+  session.cart.cartProducts = [];
+  session.cart.id = null;
+  session.cart.numProducts = 0;
+}
