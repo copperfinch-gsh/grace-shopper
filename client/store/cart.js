@@ -38,7 +38,7 @@ export const submitCart = payload => ({
   payload
 });
 
-export const removeFromCart = payload => ({
+const removeFromCart = payload => ({
   type: REMOVE_FROM_CART,
   payload
 });
@@ -76,7 +76,7 @@ export const submitCartThunk = items => async dispatch => {
 
 export const deleteItemThunk = item => async dispatch => {
   try {
-    await axios.delete('/api/orders', item);
+    await axios.delete('/api/orders', { data: item });
     dispatch(removeFromCart(item));
   } catch (error) {
     console.error(error);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { editCart, submitCartThunk, removeFromCart } from '../store/cart';
+import { editCart, submitCartThunk, deleteItemThunk } from '../store/cart';
 import CartProduct from './CartProduct';
 import { Button } from 'react-bootstrap';
 
@@ -54,8 +54,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(submitCartThunk({ items: cartItems }));
     },
     deleteCartProduct: product => {
-      console.log('product:', product);
-      dispatch(removeFromCart(product));
+      dispatch(deleteItemThunk(product));
     }
   };
 };
