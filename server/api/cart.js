@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Order } = require('../db/models');
+const { Order, LineItem } = require('../db/models');
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
@@ -30,5 +30,45 @@ router.get('/', async (req, res, next) => {
     res.status(200).send(cart);
   } catch (error) {
     next(error);
+  }
+});
+
+router.put('/', async (req, res, next) => {
+  try {
+    let cart = {};
+
+    const product = req.body.product;
+    const quantity = Number(req.body.desiredQuantity);
+
+    if (req.user) {
+      cart = await Order.findCart(req.user.id);
+    } else {
+      cart = await Order.findByPk(req.session.cart.id);
+    }
+
+    // console.log('PRODUCT:', product);
+    // console.log('cart:', cart);
+
+    const lineItem = await LineItem.findOne({
+      where: {
+        orderId: cart.id,
+        productId: product.id
+      }
+    });
+
+    // console.log('LINEITEM:', lineItem);
+
+    if (quantity) {
+      await lineItem.update({ quantity: quantity });
+      product.desiredQuantity = quantity;
+    } else {
+      await lineItem.destroy();
+    }
+
+    console.log('SENDING PRODUCT:', product);
+
+    res.status(200).send(product);
+  } catch (err) {
+    next(err);
   }
 });

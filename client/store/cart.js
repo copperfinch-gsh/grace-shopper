@@ -4,7 +4,7 @@ import axios from 'axios';
  */
 
 const ADD_TO_CART = 'ADD_TO_CART';
-const UPDATE_CART = 'UPDATE_CART';
+const EDIT_CART = 'EDIT_CART';
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 const GET_CART = 'GET_CART';
 const SUBMIT_CART = 'SUBMIT_CART';
@@ -28,8 +28,8 @@ const addToCart = payload => ({
   payload
 });
 
-export const editCart = payload => ({
-  type: UPDATE_CART,
+const editCart = payload => ({
+  type: EDIT_CART,
   payload
 });
 
@@ -37,6 +37,31 @@ export const submitCart = payload => ({
   type: SUBMIT_CART,
   payload
 });
+
+const removeFromCart = payload => ({
+  type: REMOVE_FROM_CART,
+  payload
+});
+
+export const editCartThunk = productData => async dispatch => {
+  try {
+    const res = await axios.put('/api/cart', productData);
+    console.log('data:', res);
+    dispatch(editCart(res.data));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const removeFromCartThunk = product => async dispatch => {
+  try {
+    const productId = product.id;
+    const res = await axios.put('/api/cart', productId);
+    dispatch(removeFromCart(res.data));
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 export const getCartThunk = () => async dispatch => {
   try {
@@ -64,11 +89,6 @@ export const submitCartThunk = items => async dispatch => {
     console.error(err);
   }
 };
-
-export const removeFromCart = payload => ({
-  type: REMOVE_FROM_CART,
-  payload
-});
 
 /**
  *
@@ -102,9 +122,9 @@ export default (state = initialState, action) => {
       }
       newState.numProducts += action.payload.desiredQuantity;
       return newState;
-    case UPDATE_CART:
+    case EDIT_CART:
       newState.cartProducts = newState.cartProducts.map(item => {
-        if (item.id === action.payload.product.id) {
+        if (item.id === action.payload.id) {
           newState.numProducts -= item.desiredQuantity;
           item.desiredQuantity = Number(action.payload.desiredQuantity);
           newState.numProducts += item.desiredQuantity;
