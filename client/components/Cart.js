@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { editCart, submitCartThunk, removeFromCart } from '../store/cart';
 import CartProduct from './CartProduct';
 import { Button } from 'react-bootstrap';
+import Card from 'react-bootstrap/Card';
 
 const Cart = ({ cartItems, handleChange, handleClick, deleteCartProduct }) => {
   return (
@@ -12,17 +13,22 @@ const Cart = ({ cartItems, handleChange, handleClick, deleteCartProduct }) => {
           color: green;
         }
       `}</style>
-      <h3>Shopping Cart:</h3>
-      {cartItems.map(item => {
-        return (
-          <CartProduct
-            key={item.id}
-            item={item}
-            handleChange={handleChange}
-            deleteItem={deleteCartProduct}
-          />
-        );
-      })}
+      <Card style={{ width: '40rem' }}>
+        <Card.Header>
+          {' '}
+          <h3 id="shopping-cart">Shopping Cart:</h3>
+        </Card.Header>
+        {cartItems.map(item => {
+          return (
+            <CartProduct
+              key={item.id}
+              item={item}
+              handleChange={handleChange}
+              deleteItem={deleteCartProduct}
+            />
+          );
+        })}
+      </Card>
       {cartItems.length > 0 && (
         <Button
           id="checkout"

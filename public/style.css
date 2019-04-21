@@ -71,6 +71,19 @@ form div {
   background-color: transparent;
 }
 
+#carousel {
+  padding-left: 17px;
+}
+
+#quantity-selector {
+  margin-left: 40px;
+  margin-right: 20px;
+}
+
+#shopping-cart {
+  color: black;
+}
+
 .links {
   text-decoration: none;
   color: #dd4b39;

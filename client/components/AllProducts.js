@@ -43,9 +43,11 @@ class AllProducts extends Component {
       return (
         <div id="product-container">
           <Carousel
+            id="carousel"
             activeIndex={index}
             direction={direction}
             onSelect={this.handleSelect}
+            style={{ width: '43.05rem' }}
           >
             <Carousel.Item id="transparent">
               <Image

@@ -42,7 +42,6 @@ class SingleProduct extends Component {
               </li>
               <li>Price: ${product.price / 100}</li>
             </ul>
-
             <Button variant="primary" onClick={() => this.handleClick(product)}>
               Add to Cart
             </Button>
