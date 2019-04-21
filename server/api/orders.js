@@ -79,3 +79,5 @@ router.post('/', async (req, res, next) => {
     next(err);
   }
 });
+
+router.put('/orders/submit', async (req, res, next) => {});
