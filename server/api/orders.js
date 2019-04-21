@@ -84,8 +84,6 @@ router.put('/checkout', async (req, res, next) => {
   try {
     const order = await Order.getCurrentCart(req.user, req.session.cart);
 
-    console.log('order:', order);
-
     await order.update({ isCart: false });
     clearSessionCart(req.session);
 
