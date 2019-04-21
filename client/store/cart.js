@@ -38,6 +38,15 @@ export const submitCart = payload => ({
   payload
 });
 
+export const removeFromCart = payload => ({
+  type: REMOVE_FROM_CART,
+  payload
+});
+
+/**
+ * THUNKS
+ */
+
 export const getCartThunk = () => async dispatch => {
   try {
     const res = await axios.get('/api/cart');
@@ -64,11 +73,6 @@ export const submitCartThunk = items => async dispatch => {
     console.error(err);
   }
 };
-
-export const removeFromCart = payload => ({
-  type: REMOVE_FROM_CART,
-  payload
-});
 
 /**
  *
