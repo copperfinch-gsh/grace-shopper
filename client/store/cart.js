@@ -74,6 +74,15 @@ export const submitCartThunk = items => async dispatch => {
   }
 };
 
+export const deleteItemThunk = item => async dispatch => {
+  try {
+    await axios.delete('/api/orders', item);
+    dispatch(removeFromCart(item));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 /**
  *
  * REDUCER

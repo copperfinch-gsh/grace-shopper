@@ -83,8 +83,9 @@ router.post('/', async (req, res, next) => {
 router.delete('/', async (req, res, next) => {
   try {
     const item = req.body;
+
     const lineItem = await LineItem.findOne({
-      where: { productId: item.productId, orderId: item.orderId }
+      where: { productId: item.id, orderId: item.orderId }
     });
 
     await lineItem.destroy();

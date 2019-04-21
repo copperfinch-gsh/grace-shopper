@@ -100,6 +100,20 @@ describe('Order model', () => {
       it('if the cart does not exist, return null', () => {
         return Order.findCart(2).then(data => expect(data).to.equal(null));
       });
-    }); // end describe('correctPassword')
+    }); // end describe('get full cart')
+    describe('getCurrentCart', () => {
+      describe('it creates a new cart if no user or cart is on the session', () => {
+        it('new cart has no user id', () => {
+          return Order.getCurrentCart(null, {}).then(data =>
+            expect(data.userId).to.equal(null)
+          );
+        });
+        it(`new cart exists`, () => {
+          return Order.getCurrentCart(null, {}).then(data =>
+            expect(data.id).to.equal(1)
+          );
+        });
+      });
+    });
   }); // end describe('instanceMethods')
 }); // end describe('User model')
