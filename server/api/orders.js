@@ -82,12 +82,14 @@ router.post('/', async (req, res, next) => {
 
 router.delete('/', async (req, res, next) => {
   try {
-    const orderId = req.body.lineItem.orderId;
     const productId = req.body.id;
+    const order = await Order.getCurrentCart(req.user, req.session.cart);
 
     const lineItem = await LineItem.findOne({
-      where: { productId: productId, orderId: orderId }
+      where: { productId: productId, orderId: order.id }
     });
+
+    removeProdFromSesh(productId, lineItem, req.session.cart);
 
     await lineItem.destroy();
     res.sendStatus(202);
@@ -95,3 +97,12 @@ router.delete('/', async (req, res, next) => {
     next(error);
   }
 });
+
+// HELPER FUNCTIONS
+
+function removeProdFromSesh(productId, lineItem, sessionCart) {
+  sessionCart.cartProducts = sessionCart.cartProducts.filter(
+    prod => prod.id !== productId
+  );
+  sessionCart.numProducts -= lineItem.quantity;
+}
