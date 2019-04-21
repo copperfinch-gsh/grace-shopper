@@ -32,4 +32,16 @@ Order.getFullCart = async function(userId) {
   return cart;
 };
 
+Order.getFullGuestCart = async function(cartId) {
+  const cart = await this.findOne({
+    include: [{ model: Product }],
+    where: {
+      id: cartId,
+      isCart: true
+    }
+  });
+
+  return cart;
+};
+
 module.exports = Order;

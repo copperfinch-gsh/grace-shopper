@@ -58,7 +58,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(submitCartThunk({ items: cartItems }));
     },
     deleteCartProduct: product => {
-      dispatch(removeFromCartThunk(product));
+      dispatch(removeFromCartThunk({ product }));
     }
   };
 };
