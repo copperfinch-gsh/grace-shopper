@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { auth } from '../store';
+import CardDeck from 'react-bootstrap/CardDeck';
+import Card from 'react-bootstrap/Card';
 
 /**
  * COMPONENT
@@ -11,25 +13,59 @@ const AuthForm = props => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit} name={name}>
-        <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input name="email" type="text" />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
-      <a href="/auth/google">{displayName} with Google</a>
+      <CardDeck style={{ width: '40rem' }}>
+        <Card id="card">
+          <Card.Body>
+            <Card.Title id="title-color">Please {displayName}</Card.Title>
+            <Card.Text>
+              <form onSubmit={handleSubmit} name={name}>
+                <div>
+                  <label htmlFor="email">
+                    <small id="email">Email:</small>
+                  </label>
+                  <p />
+                  <input name="email" type="text" />
+                </div>
+                <div>
+                  <label htmlFor="password">
+                    <small id="password">Password:</small>
+                  </label>
+                  <p />
+                  <input name="password" type="password" />
+                </div>
+                <div>
+                  <button id="login" type="submit">
+                    {displayName}
+                  </button>
+                </div>
+              </form>
+            </Card.Text>
+          </Card.Body>
+        </Card>
+        <div className="wrapper">
+          <div className="line" />
+          <div className="wordwrapper">
+            <div className="word">or</div>
+          </div>
+        </div>​
+        <Card id="card">
+          <Card.Body id="google">
+            <Card.Text>
+              {' '}
+              <form onSubmit={handleSubmit} name={name}>
+                {error && error.response && <div> {error.response.data} </div>}
+                <button
+                  type="submit"
+                  href="/auth/google"
+                  className="loginBtn loginBtn--google"
+                >
+                  <a href="/auth/google">{displayName} with Google</a>
+                </button>
+              </form>
+            </Card.Text>
+          </Card.Body>
+        </Card>
+      </CardDeck>;
     </div>
   );
 };

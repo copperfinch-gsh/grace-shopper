@@ -35,7 +35,7 @@ class SingleProduct extends Component {
             variant="top"
             src={product.imageUrl}
           />
-          <Card.Body bg="danger">
+          <Card.Body>
             <ul>
               <li>
                 {product.manufacturer} {product.name}

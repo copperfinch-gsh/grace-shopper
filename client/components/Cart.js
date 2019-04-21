@@ -25,6 +25,7 @@ const Cart = ({ cartItems, handleChange, handleClick, deleteCartProduct }) => {
       })}
       {cartItems.length > 0 && (
         <Button
+          id="checkout"
           as="input"
           type="button"
           value="Checkout"
