@@ -29,11 +29,6 @@ class AllProducts extends Component {
   }
 
   render() {
-    if (this.props.products[0] === undefined) {
-      console.log('loading');
-    } else {
-      console.log(this.props.products[0].imageUrl);
-    }
     const { products, addToCart } = this.props;
     const { index, direction } = this.state;
 

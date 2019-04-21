@@ -6,7 +6,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 const CartProduct = ({ item, handleChange, deleteItem }) => {
   return (
     <div>
-      <Card style={{ width: '40rem' }}>
+      <Card style={{ width: '40rem', height: '10rem' }}>
         <ListGroup variant="flush">
           <ListGroup.Item>
             <Button
@@ -40,7 +40,7 @@ const CartProduct = ({ item, handleChange, deleteItem }) => {
             </select>{' '}
             <b>Item: </b>
             {item.name}
-            <img src={item.imageUrl} width="100px" />
+            <img src={item.imageUrl} width="110px" height="125px" />
             {'\n'}
             <b>Price:</b> ${item.price * item.desiredQuantity / 100}
           </ListGroup.Item>
