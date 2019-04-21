@@ -20,6 +20,9 @@ const Navbar = ({ handleClick, isLoggedIn, cart, user }) => (
           <a className="links" href="#" onClick={handleClick}>
             Logout
           </a>
+          <Link className="links" to="/cart">
+            Cart({cart.numProducts})
+          </Link>
         </div>
       ) : (
         <div>
