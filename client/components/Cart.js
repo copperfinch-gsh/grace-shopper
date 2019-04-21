@@ -1,6 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { editCart, submitCartThunk, removeFromCart } from '../store/cart';
+import {
+  editCartThunk,
+  submitCartThunk,
+  removeFromCartThunk
+} from '../store/cart';
 import CartProduct from './CartProduct';
 import { Button } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
@@ -35,7 +39,7 @@ const Cart = ({ cartItems, handleChange, handleClick, deleteCartProduct }) => {
           as="input"
           type="button"
           value="Checkout"
-          onClick={() => handleClick(cartItems)}
+          onClick={handleClick}
         />
       )}
     </div>
@@ -51,17 +55,17 @@ const mapDispatchToProps = dispatch => {
     handleChange: (event, product) => {
       const value = event.target.value;
       dispatch(
-        editCart({
+        editCartThunk({
           product,
           desiredQuantity: value
         })
       );
     },
-    handleClick: cartItems => {
-      dispatch(submitCartThunk({ items: cartItems }));
+    handleClick: () => {
+      dispatch(submitCartThunk());
     },
     deleteCartProduct: product => {
-      dispatch(removeFromCart(product));
+      dispatch(removeFromCartThunk({ product }));
     }
   };
 };

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logout, submitCart } from '../store';
 
-const Navbar = ({ handleClick, isLoggedIn, cart, user }) => (
+const Navbar = ({ handleClick, isLoggedIn, cart }) => (
   <div id="nav">
     <Link id="grace" to="/">
       {' '}
