@@ -10,7 +10,7 @@ router.get('/', async (req, res, next) => {
       //if the user exists, grab the full cart
       data = await Order.getFullCart(req.user.id);
     } else if (req.session.cart.id) {
-      // if no user, grab the session cart
+      // if no user, grab the full guest session cart
       data = await Order.getFullGuestCart(req.session.cart.id);
     }
     //populate the cart with the lineItems from the full cart you waited for
@@ -46,11 +46,14 @@ router.put('/', async (req, res, next) => {
     const quantity = Number(req.body.desiredQuantity);
 
     if (req.user) {
+      // grab user cart if exists
       cart = await Order.findCart(req.user.id);
     } else {
+      // otherwise, grab session cart
       cart = await Order.findByPk(req.session.cart.id);
     }
 
+    //grab the related lineItem
     const lineItem = await LineItem.findOne({
       where: {
         orderId: cart.id,
@@ -59,13 +62,13 @@ router.put('/', async (req, res, next) => {
     });
 
     if (quantity) {
+      // if a new desiredQuantity was passed in -> update
       await lineItem.update({ quantity });
       product.desiredQuantity = quantity;
     } else {
+      // otherwise, we're deleting
       await lineItem.destroy();
     }
-
-    // console.log('SENDING PRODUCT:', product);
 
     res.status(200).send(product);
   } catch (err) {
