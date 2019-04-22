@@ -5,25 +5,39 @@ import { Link } from 'react-router-dom';
 import { logout, submitCart } from '../store';
 
 const Navbar = ({ handleClick, isLoggedIn, cart }) => (
-  <div>
-    <Link to="/"> GRACE SHREDDER</Link>
+  <div id="nav">
+    <Link id="grace" to="/">
+      {' '}
+      GRACE SHREDDER
+    </Link>
     <nav>
       {isLoggedIn ? (
         <div>
           {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
-          <a href="#" onClick={handleClick}>
+          <Link className="links" to="/home">
+            Home
+          </Link>
+          <a className="links" href="#" onClick={handleClick}>
             Logout
           </a>
+          <Link className="links" to="/cart">
+            Cart({cart.numProducts})
+          </Link>
         </div>
       ) : (
         <div>
           {/* The navbar will show these links before you log in */}
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
+          <Link className="links" to="/login">
+            Login
+          </Link>
+          <Link className="links" to="/signup">
+            Sign Up
+          </Link>
+          <Link className="links" to="/cart">
+            Cart({cart.numProducts})
+          </Link>
         </div>
       )}
-      <Link to="/cart">Cart({cart.numProducts})</Link>
     </nav>
     <hr />
   </div>

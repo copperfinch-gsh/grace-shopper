@@ -29,20 +29,19 @@ class SingleProduct extends Component {
     const { product } = this.props;
     return (
       <div>
-        <Card bg="info" text="white" style={{ width: '18rem' }}>
+        <Card bg="info" text="white" style={{ width: '20rem' }}>
           <Card.Img
-            style={{ width: '18rem' }}
+            style={{ width: '20rem', height: '22rem' }}
             variant="top"
             src={product.imageUrl}
           />
-          <Card.Body bg="danger">
+          <Card.Body>
             <ul>
               <li>
                 {product.manufacturer} {product.name}
               </li>
               <li>Price: ${product.price / 100}</li>
             </ul>
-
             <Button variant="primary" onClick={() => this.handleClick(product)}>
               Add to Cart
             </Button>
