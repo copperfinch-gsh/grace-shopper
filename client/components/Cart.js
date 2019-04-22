@@ -8,6 +8,7 @@ import {
 import CartProduct from './CartProduct';
 import { Button } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
+import Checkout from './Checkout';
 
 const Cart = ({ cartItems, handleChange, handleClick, deleteCartProduct }) => {
   return (
@@ -42,6 +43,11 @@ const Cart = ({ cartItems, handleChange, handleClick, deleteCartProduct }) => {
           onClick={handleClick}
         />
       )}
+      <Checkout
+        name={'The Road to learn React'}
+        description={'Only the Book'}
+        amount={1}
+      />
     </div>
   );
 };
