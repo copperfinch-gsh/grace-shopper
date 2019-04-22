@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../db');
 const Product = db.model('product');
+const LineItem = require('./lineItem');
 
 const Order = db.define('order', {
   isCart: {
@@ -30,6 +31,29 @@ Order.getFullCart = async function(userId) {
   });
 
   return cart;
+};
+
+Order.prototype.mergeCarts = async function(guestCartId) {
+  const data = await Order.getFullGuestCart(guestCartId);
+  const guestCart = data.products;
+  let orderId = this.id;
+  for (let i = 0; i < guestCart.length; i++) {
+    let item = guestCart[i];
+    let quantity = item.lineItem.quantity;
+    const unitPrice = await Product.getPrice(Number(item.id));
+
+    const [newLineItem, wasCreated] = await LineItem.findOrCreate({
+      where: {
+        orderId,
+        productId: item.id
+      }
+    });
+
+    if (!wasCreated) {
+      quantity += newLineItem.quantity;
+    }
+    await newLineItem.update({ orderId, quantity, unitPrice });
+  }
 };
 
 Order.getCurrentCart = async function(
