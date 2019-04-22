@@ -16,6 +16,7 @@ const OrderHistory = ({ history }) => {
               <OrderItem key={prod.name} {...prod} />
             ))}{' '}
           </ol>{' '}
+          <div> Total: ${totalCalc(order.products)} </div>
         </div>
       ))}{' '}
     </div>
@@ -27,3 +28,15 @@ const mapState = state => ({
 });
 
 export default connect(mapState)(OrderHistory);
+
+//to move to utils file
+function totalCalc(productArr) {
+  let total =
+    productArr.reduce((accum, prod) => prod.price * prod.quantity + accum, 0) /
+    100;
+  return formatWithCommas(total);
+}
+
+function formatWithCommas(num) {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
