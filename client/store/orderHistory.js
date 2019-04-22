@@ -1,5 +1,4 @@
 import axios from 'axios';
-import history from '../history';
 
 /**
  * ACTION TYPES
@@ -21,7 +20,8 @@ const setHistory = payload => ({ type: SET_HISTORY, payload });
  */
 export const getHistoryThunk = userId => async dispatch => {
   try {
-    const res = await axios.get(`/users/${userId}/orders`);
+    const res = await axios.get(`/api/users/${userId}/orders`);
+    console.log('order stuff:', res.data);
     dispatch(setHistory(res.data));
   } catch (err) {
     console.error(err);

@@ -29,7 +29,7 @@ router.get('/:id/orders', async (req, res, next) => {
           isCart: false
         }
       });
-      res.status(200).send(orders);
+      res.status(200).json(orders);
     } else {
       res.send(401);
     }

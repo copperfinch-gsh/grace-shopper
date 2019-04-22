@@ -1,11 +1,12 @@
-import React, {useEffect} from 'react'
-import axios from 'axios'
+import React from 'react';
+import { connect } from 'react-redux';
 
-const OrderHistory = props => {
-  useEffect(() => {
+const OrderHistory = () => {
+  return <div> render me! </div>;
+};
 
-  })
-  return (
+const mapState = state => ({
+  history: state.orders
+});
 
-  )
-}
+export default connect(null, null)(OrderHistory);
