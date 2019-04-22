@@ -25,7 +25,8 @@ router.get('/:id/orders', async (req, res, next) => {
           { model: Product, attributes: ['name', 'color', 'manufacturer'] }
         ],
         where: {
-          userId: req.user.id
+          userId: req.user.id,
+          isCart: false
         }
       });
       res.status(200).send(orders);
