@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const { Order, LineItem, Product } = require('../db/models');
+const { checkMerge, clearSessionCart } = require('../utils');
+
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
@@ -40,17 +42,17 @@ router.post('/', async (req, res, next) => {
     //if there is no user, set the item's desiredQuantity equal to either the original quantity passed in or the newly summed up quantity from the !wasCreated check above
     if (!req.user) {
       item.desiredQuantity = quantity;
-      // if the item already existed in the session cart, map through and change the desiredQuantity value on the already existent cart item in order to maintain the order of the cart
+      // if the item already existed in the session cart, loop through and change the desiredQuantity value on the already existent cart item in order to maintain the order of the cart
       if (!wasCreated) {
-        req.session.cart.cartProducts = req.session.cart.cartProducts.map(
-          product => {
-            if (product.id === item.id) {
-              product.desiredQuantity = item.desiredQuantity;
-              return product;
-            }
-            return product;
+        let cart = req.session.cart.cartProducts;
+        let cartLength = cart.length;
+        for (let i = 0; i < cartLength; i++) {
+          if (cart[i].id === item.id) {
+            req.session.cart.cartProducts[i].desiredQuantity =
+              item.desiredQuantity;
+            break;
           }
-        );
+        }
       } else {
         // otherwise, add the new item to the cart
         req.session.cart.cartProducts.push(item);
@@ -58,7 +60,7 @@ router.post('/', async (req, res, next) => {
     }
 
     //update the quantity and unitPrice attributes of the lineItem
-    await newLineItem.update({ quantity: quantity, unitPrice: unitPrice });
+    await newLineItem.update({ quantity, unitPrice });
 
     res.sendStatus(201);
   } catch (err) {
@@ -78,9 +80,3 @@ router.put('/checkout', async (req, res, next) => {
     next(error);
   }
 });
-
-function clearSessionCart(session) {
-  session.cart.cartProducts = [];
-  session.cart.id = null;
-  session.cart.numProducts = 0;
-}

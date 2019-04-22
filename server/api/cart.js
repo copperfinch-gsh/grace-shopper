@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { Order, LineItem } = require('../db/models');
+const { checkMerge, clearSessionCart } = require('../utils');
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
@@ -7,6 +8,10 @@ router.get('/', async (req, res, next) => {
     let cart = {},
       data;
     if (req.user) {
+      //check if a session cart exists, and if so, merge
+      await checkMerge(req.user, req.session.cart.id);
+      //set req.session.cart to default so that ID doesn't exist
+      clearSessionCart(req.session);
       //if the user exists, grab the full cart
       data = await Order.getFullCart(req.user.id);
     } else if (req.session.cart.id) {
