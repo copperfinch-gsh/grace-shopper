@@ -1,5 +1,6 @@
 const router = require('express').Router();
-const { Order, Product, LineItem } = require('../db/models');
+const { Order, LineItem } = require('../db/models');
+const { checkMerge, clearSessionCart } = require('../utils');
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
@@ -7,44 +8,10 @@ router.get('/', async (req, res, next) => {
     let cart = {},
       data;
     if (req.user) {
-      let userCart = await Order.findCart(Number(req.user.id));
-
-      //if there already exists a guest cart on the session, merge the carts
-      if (req.session.cart.id) {
-        const guestCart = await Order.findByPk(req.session.cart.id)
-        if (!userCart) {
-          // if there is no user cart yet, just use the guest cart
-          userCart = guestCart;
-
-          // set the user on the guest cart to the current user
-          if (!userCart.userId) await userCart.setUser(req.user);
-        } else {
-          //if a user cart already existed, merge the two carts
-          await userCart.mergeCarts(guestCart.id);
-        }
-
-        //set req.session.cart to default so that ID doesn't exist
-        req.session.cart = { cartProducts: [], numProducts: 0 };
-      }
-
-      //grab the full cart
-      const data = await Order.getFullCart(req.user.id);
-      if (!data) {
-        /* if the cart doesn't exist, set the cart to equal the default session cart
-      (this means that there was no merge, and we don't want to create a cart unless someone actually adds something to their cart )
-      */
-        cart = { cartProducts: [], numProducts: 0 };
-      } else {
-        // otherwise, populate the cart with the lineItems from the full cart you waited for
-        const products = data.products;
-        cart.cartProducts = [];
-        cart.numProducts = 0;
-        for (let i = 0; i < products.length; i++) {
-          const item = products[i].dataValues;
-          item.desiredQuantity = item.lineItem.quantity;
-          cart.cartProducts.push(item);
-          cart.numProducts += item.desiredQuantity;
-        }
+      //check if a session cart exists, and if so, merge
+      await checkMerge(req.user, req.session.cart.id);
+      //set req.session.cart to default so that ID doesn't exist
+      clearSessionCart(req.session);
       //if the user exists, grab the full cart
       data = await Order.getFullCart(req.user.id);
     } else if (req.session.cart.id) {
