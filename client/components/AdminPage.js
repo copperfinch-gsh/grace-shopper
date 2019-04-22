@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { GenericProductForm } from './GenericProductForm';
 import { connect } from 'react-redux';
+import { updateProductThunk, getProduct } from '../store/products';
 
 class AdminPage extends Component {
   constructor(props) {
@@ -11,18 +12,24 @@ class AdminPage extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+  async componentDidMount() {
+    await this.props.getAllProducts();
+  }
+
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
 
   handleSubmit(event) {
     event.preventDefault();
+    const productId = this.props.match.params.id;
+    this.props.updateOneProduct(productId, this.state);
     this.setState({
-      price: '',
+      price: ''
     });
   }
   render() {
-    const { products } = this.props.allProducts;
+    const { allProducts } = this.props;
     return (
       <div>
         <h2>Modify Product Info</h2>
@@ -30,7 +37,7 @@ class AdminPage extends Component {
           {...this.state}
           handleSubmit={this.handleSubmit}
           handleChange={this.handleChange}
-          products = {products}
+          products={allProducts}
         />
       </div>
     );
@@ -42,4 +49,15 @@ const mapState = state => {
     allProducts: state.products
   };
 };
-export default connect(mapState)(AdminPage);
+
+const mapDispatch = dispatch => {
+  return {
+    updateOneProduct: (product, id) => {
+      dispatch(updateProductThunk(product, id));
+    },
+    getAllProducts: () => {
+      dispatch(getProduct());
+    }
+  };
+};
+export default connect(mapState, mapDispatch)(AdminPage);

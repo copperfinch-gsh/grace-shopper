@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { Login, Signup, Cart, UserAccountInfo } from './components';
 import AllProducts from './components/AllProducts';
 import { me, getCartThunk } from './store';
+import AdminPage from './components/AdminPage'
 
 /**
  * COMPONENT
@@ -30,6 +31,7 @@ class Routes extends Component {
         <Route exact path="/" component={AllProducts} />
         <Route exact path="/cart" component={Cart} />
         <Route path="/home" component={UserAccountInfo} />
+        <Route path="/edit" component={AdminPage} />
 
         <Route path="/products" component={AllProducts} />
         {isLoggedIn ? (
