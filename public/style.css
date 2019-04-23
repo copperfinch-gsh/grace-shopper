@@ -232,3 +232,14 @@ form div {
 .loading {
   color: white;
 }
+
+.cart-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.cart-header div {
+  font-weight: bold;
+  padding-right: 5px;
+}
