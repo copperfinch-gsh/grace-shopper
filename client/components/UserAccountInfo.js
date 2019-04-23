@@ -15,7 +15,7 @@ import {
  * COMPONENT
  */
 export const UserAccountInfo = props => {
-  const { firstName, id } = props.user;
+  const { id } = props.user;
   const [profDisplay, setProfDisplay] = useState(true);
 
   useEffect(() => {
@@ -41,7 +41,11 @@ export const UserAccountInfo = props => {
           Order History
         </div>
       </div>
-      {profDisplay ? <UserProfile /> : <OrderHistory history={props.history} />}
+      {profDisplay ? (
+        <UserProfile {...props.user} />
+      ) : (
+        <OrderHistory history={props.history} />
+      )}
     </div>
   );
 };

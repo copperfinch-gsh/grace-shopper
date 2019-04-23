@@ -219,3 +219,12 @@ form div {
   justify-content: space-between;
   padding: 5px;
 }
+
+.profile-container {
+  margin-left: 10px;
+  width: 20%;
+}
+.profile-line span {
+  text-align: right;
+  margin: 20px;
+}
