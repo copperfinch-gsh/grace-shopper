@@ -223,3 +223,27 @@ form div {
   justify-content: space-between;
   padding: 5px;
 }
+
+.profile-container {
+  margin-left: 10px;
+  width: 20%;
+}
+.profile-line span {
+  text-align: right;
+  margin: 20px;
+}
+
+.loading {
+  color: white;
+}
+
+.cart-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.cart-header div {
+  font-weight: bold;
+  padding-right: 5px;
+}

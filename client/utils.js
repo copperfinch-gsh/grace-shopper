@@ -2,4 +2,14 @@ function getRange(quantity) {
   return [...Array(quantity).keys()].map(i => i + 1);
 }
 
-module.exports = { getRange };
+function formatWithCommas(num) {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function sumCartProducts(cartArr) {
+  return cartArr.reduce((accum, cur) => {
+    return accum + cur.price * cur.desiredQuantity;
+  }, 0);
+}
+
+module.exports = { getRange, formatWithCommas, sumCartProducts };

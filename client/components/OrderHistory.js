@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import OrderItem from './OrderItem';
 import { Card } from 'react-bootstrap';
+import { formatWithCommas } from '../utils';
 
 const OrderHistory = ({ history }) => {
   return (
@@ -44,8 +45,4 @@ function totalCalc(productArr) {
     productArr.reduce((accum, prod) => prod.price * prod.quantity + accum, 0) /
     100;
   return formatWithCommas(total);
-}
-
-function formatWithCommas(num) {
-  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }

@@ -33,7 +33,11 @@ class AllProducts extends Component {
     const { index, direction } = this.state;
 
     if (products[0] === undefined) {
-      return <h1>Loading</h1>;
+      return (
+        <h1 className="loading">
+          Currently Shredding <i class="fas fa-guitar" />
+        </h1>
+      );
     } else {
       return (
         <div id="product-container">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
   editCartThunk,
@@ -6,10 +6,19 @@ import {
   removeFromCartThunk
 } from '../store/cart';
 import { CartProduct } from '../components';
-import { Button } from 'react-bootstrap';
+// import { Button } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
+import Checkout from './Checkout';
+import { sumCartProducts, formatWithCommas } from '../utils';
 
-const Cart = ({ cartItems, handleChange, handleClick, deleteCartProduct }) => {
+const Cart = ({ cartItems, handleChange, deleteCartProduct, numProducts }) => {
+  let [cartTotal, setCartTotal] = useState(0);
+
+  useEffect(() => {
+    console.log('cart items:', cartItems.map(i => i.lineItem));
+    setCartTotal(sumCartProducts(cartItems));
+  });
+
   return (
     <div className="container-fluid">
       <Card style={{ width: '40rem' }}>
@@ -18,15 +27,16 @@ const Cart = ({ cartItems, handleChange, handleClick, deleteCartProduct }) => {
         >
           {' '}
           <h3 id="shopping-cart">Shopping Cart:</h3>
-          {cartItems.length > 0 && (
-            <Button
-              id="checkout"
-              as="input"
-              type="button"
-              value="Checkout"
-              onClick={handleClick}
-            />
-          )}
+          <div className="cart-header">
+            <div> Total: ${formatWithCommas(cartTotal / 100)} </div>
+            {cartItems.length > 0 && (
+              <Checkout
+                name={'Grace Shredder'}
+                description={'Your Order'}
+                amount={cartTotal}
+              />
+            )}
+          </div>
         </Card.Header>
         {cartItems.map(item => {
           return (

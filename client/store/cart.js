@@ -45,6 +45,7 @@ const removeFromCart = payload => ({
 export const editCartThunk = productData => async dispatch => {
   try {
     const res = await axios.put('/api/cart', productData);
+    console.log('data from put route:', res.data);
     dispatch(editCart(res.data));
   } catch (error) {
     console.error(error);
