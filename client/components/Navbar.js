@@ -22,7 +22,7 @@ const Navbar = ({ handleClick, isLoggedIn, cart, user }) => (
             Cart({cart.numProducts})
           </Link>
           <Link className="links" to="/home">
-            Welcome {user.firstName}!
+            Welcome {user.firstName} <i class="fas fa-guitar" />
           </Link>
         </div>
       ) : (

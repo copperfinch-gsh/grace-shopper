@@ -165,3 +165,14 @@ form div {
 .loginBtn--google:focus {
   background: #e74b37;
 }
+
+.userLink-container {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.userLink {
+  margin: 0 20px 20px 10px;
+
+  color: white;
+}

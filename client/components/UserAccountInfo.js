@@ -27,15 +27,15 @@ export const UserAccountInfo = props => {
 
   return (
     <div>
-      <div>
+      <div className="userLink-container">
         <div
-          className={profDisplay ? 'active' : ''}
+          className={profDisplay ? 'active userLink' : 'userLink'}
           onClick={() => setProfDisplay(true)}
         >
           User Profile
         </div>
         <div
-          className={!profDisplay ? 'active' : ''}
+          className={!profDisplay ? 'active userLink' : 'userLink'}
           onClick={() => setProfDisplay(false)}
         >
           Order History
