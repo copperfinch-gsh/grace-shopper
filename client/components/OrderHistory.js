@@ -1,23 +1,32 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import OrderItem from './OrderItem';
+import { Card } from 'react-bootstrap';
 
 const OrderHistory = ({ history }) => {
   return (
     <div>
       {' '}
       {history.map(order => (
-        <div key={order.id}>
+        <Card key={order.id} className="order-container">
           {' '}
-          <div>Order number: {order.id} </div>
-          <ol>
+          <div>
             {' '}
-            {order.products.map(prod => (
-              <OrderItem key={prod.name} {...prod} />
-            ))}{' '}
-          </ol>{' '}
-          <div> Total: ${totalCalc(order.products)} </div>
-        </div>
+            <strong>Order number: {order.id}</strong>{' '}
+          </div>
+          <table>
+            <ol className="order-list">
+              {' '}
+              {order.products.map(prod => (
+                <OrderItem key={prod.name} {...prod} />
+              ))}{' '}
+            </ol>{' '}
+          </table>
+          <div className="total">
+            {' '}
+            <span>Total:</span> <span>${totalCalc(order.products)}</span>{' '}
+          </div>
+        </Card>
       ))}{' '}
     </div>
   );

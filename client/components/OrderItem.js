@@ -1,14 +1,29 @@
 import React from 'react';
+import { ListGroup as div } from 'react-bootstrap';
 
-const OrderItem = ({ name, color, manufacturer, price, quantity }) => {
+const OrderItem = ({
+  name,
+  color,
+  manufacturer,
+  price,
+  quantity,
+  imageUrl
+}) => {
   return (
-    <li>
-      <div>Product: {name}</div>
-      <div>Color: {color}</div>
-      <div>Manufacturer: {manufacturer}</div>
-      <div>Price: ${formatWithCommas(Number(price) / 100)}</div>
-      <div>Quantity: {quantity}</div>
-    </li>
+    <div variant="flush">
+      <li className="order-list-container">
+        <tr className="order-list-item">
+          <td>{name}</td>
+          <td>Color: {color}</td>
+          <td>
+            <img src={imageUrl} alt="product image" />
+          </td>
+          <td>By: {manufacturer}</td>
+          <td className="num">Q: {quantity}</td>
+          <td className="num">${formatWithCommas(Number(price) / 100)}</td>
+        </tr>
+      </li>
+    </div>
   );
 };
 
