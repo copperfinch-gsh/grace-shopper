@@ -173,6 +173,14 @@ form div {
 
 .userLink {
   margin: 0 20px 20px 10px;
+  color: #dd4b39;
+}
 
-  color: white;
+.userLink:hover {
+  cursor: pointer;
+  color: #e6ddda;
+}
+
+.active {
+  color: #e6dddac5;
 }
