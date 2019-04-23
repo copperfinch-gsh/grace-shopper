@@ -43,22 +43,33 @@ class SingleProduct extends Component {
               </li>
               <li>Price: ${product.price / 100}</li>
             </ul>
-            <Button variant="primary" onClick={() => this.handleClick(product)}>
-              Add to Cart
-            </Button>
-            <select
-              name="selectedName"
-              value={this.state.selectedNum}
-              onChange={this.handleChange}
+            <div
+              id="selector"
+              style={{ display: 'flex', justifyContent: 'flex-start' }}
             >
-              {getRange(30).map(number => {
-                return (
-                  <option key={number} value={number}>
-                    {number}
-                  </option>
-                );
-              })}
-            </select>
+              Qty:
+              <select
+                name="selectedName"
+                value={this.state.selectedNum}
+                onChange={this.handleChange}
+              >
+                {getRange(30).map(number => {
+                  return (
+                    <option key={number} value={number}>
+                      {number}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <Button
+                variant="primary"
+                onClick={() => this.handleClick(product)}
+              >
+                Add to Cart
+              </Button>
+            </div>
           </Card.Body>
         </Card>
         <br />

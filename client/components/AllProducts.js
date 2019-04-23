@@ -42,7 +42,7 @@ class AllProducts extends Component {
             activeIndex={index}
             direction={direction}
             onSelect={this.handleSelect}
-            style={{ width: '43.05rem' }}
+            style={{ width: '65rem' }}
           >
             <Carousel.Item id="transparent">
               <Image

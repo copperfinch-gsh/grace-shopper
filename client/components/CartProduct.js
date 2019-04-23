@@ -4,7 +4,13 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { getRange } from '../utils';
 
-const CartProduct = ({ item, handleChange, deleteItem, fullQuantity = 30 }) => {
+const CartProduct = ({
+  item,
+  handleChange,
+  deleteItem,
+  fullQuantity = 30,
+  admin = false
+}) => {
   return (
     <div>
       <Card style={{ width: '40rem', height: '10rem' }}>
@@ -13,7 +19,11 @@ const CartProduct = ({ item, handleChange, deleteItem, fullQuantity = 30 }) => {
             <Button
               variant="danger"
               onClick={() => {
-                deleteItem(item);
+                if (admin) {
+                  deleteItem(item.id);
+                } else {
+                  deleteItem(item);
+                }
               }}
             >
               Delete

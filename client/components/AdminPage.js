@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { GenericProductForm } from './GenericProductForm';
 import { connect } from 'react-redux';
-import { updateProductThunk, getProduct } from '../store/products';
+import {
+  updateProductThunk,
+  getProduct,
+  removeProductThunk
+} from '../store/products';
 
 class AdminPage extends Component {
   constructor(props) {
@@ -18,22 +22,18 @@ class AdminPage extends Component {
   }
 
   handleChange(event) {
-    console.log(event.target.name, event.target.value);
     this.setState({ [event.target.name]: event.target.value });
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    const productId = this.props.match.params.id;
-    console.log(productId);
-    this.props.updateOneProduct(productId, this.state);
-    this.setState({
-      price: ''
-    });
+    this.props.updateOneProduct(
+      this.props.allProducts[this.state.index].id,
+      this.state.price
+    );
   }
   render() {
-    const { allProducts } = this.props;
-    // console.log('hello', allProducts[this.state.index]);
+    const { allProducts, removeProduct } = this.props;
     return (
       <div>
         <h2 id="title-color">Modify Product Info</h2>
@@ -51,6 +51,8 @@ class AdminPage extends Component {
             item={allProducts[this.state.index]}
             handleSubmit={this.handleSubmit}
             handleChange={this.handleChange}
+            deleteItem={removeProduct}
+            price={this.state.price}
           />
         )}
       </div>
@@ -66,11 +68,14 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    updateOneProduct: (product, id) => {
-      dispatch(updateProductThunk(product, id));
+    updateOneProduct: (id, price) => {
+      dispatch(updateProductThunk(id, { price }));
     },
     getAllProducts: () => {
       dispatch(getProduct());
+    },
+    removeProduct: id => {
+      dispatch(removeProductThunk(id));
     }
   };
 };

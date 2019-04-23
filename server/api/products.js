@@ -14,15 +14,34 @@ router.get('/', async (req, res, next) => {
 router.put('/:id', async (req, res, next) => {
   try {
     const productId = Number(req.params.id);
-    const productToUpdate = await Product.findByPk(productId);
+    const product = await Product.findByPk(productId);
+    const price = Number(req.body.price) * 100;
 
     if (!productId) {
       res.sendStatus(404);
     } else {
-      const updatedProduct = await productToUpdate.Update({
-        price: req.body.price
+      const updatedProduct = await product.update({
+        price
       });
-      res.status(201).send(updatedProduct);
+
+      res.status(200).send(updatedProduct);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const productId = Number(req.params.id);
+    const product = await Product.findByPk(productId);
+
+    if (!productId) {
+      res.sendStatus(404);
+    } else {
+      await product.destroy();
+
+      res.sendStatus(200);
     }
   } catch (error) {
     next(error);

@@ -17,8 +17,8 @@ const initialState = [];
  * ACTION CREATORS
  */
 const setProduct = product => ({ type: SET_PRODUCTS, product });
-const removeProduct = () => ({ type: REMOVE_PRODUCT });
-const updateProduct = (product, id) => ({ type: UPDATE_PRODUCT, product, id });
+const removeProduct = id => ({ type: REMOVE_PRODUCT, id });
+const updateProduct = data => ({ type: UPDATE_PRODUCT, payload: data });
 
 /**
  * THUNK CREATORS
@@ -32,10 +32,10 @@ export const getProduct = () => async dispatch => {
   }
 };
 
-export const updateProductThunk = (productToUpdate, id) => {
+export const updateProductThunk = (id, price) => {
   return async dispatch => {
     try {
-      const { data } = await axios.put(`/api/products/${id}`, productToUpdate);
+      const { data } = await axios.put(`/api/products/${id}`, price);
       dispatch(updateProduct(data));
     } catch (err) {
       console.error(err);
@@ -43,22 +43,36 @@ export const updateProductThunk = (productToUpdate, id) => {
   };
 };
 
+export const removeProductThunk = id => async dispatch => {
+  try {
+    const res = await axios.delete(`/api/products/${id}`);
+    dispatch(removeProduct(id));
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 /**
  * REDUCER
  */
 export default function(state = initialState, action) {
+  // console.log(action.payload);
+  let newState = [...state];
   switch (action.type) {
     case SET_PRODUCTS:
       return action.product;
     case REMOVE_PRODUCT:
-      return state;
+      newState = newState.filter(product => product.id !== action.id);
+      return newState;
     case UPDATE_PRODUCT:
-      let copyOfProducts = [...state];
-      let productToUpdate = copyOfProducts.filter(
-        product => product.id === action.id
-      );
-      productToUpdate = action.product;
-      return productToUpdate;
+      newState = newState.map(product => {
+        if (product.id === action.payload.id) {
+          return action.payload;
+        } else {
+          return product;
+        }
+      });
+      return newState;
     default:
       return state;
   }
