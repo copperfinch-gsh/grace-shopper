@@ -26,7 +26,7 @@ const errorPayment = data => {
 
 const onToken = (amount, description) => token =>
   axios
-    .post(PAYMENT_SERVER_URL, {
+    .post('/api/payment', {
       description,
       source: token.id,
       currency: CURRENCY,
