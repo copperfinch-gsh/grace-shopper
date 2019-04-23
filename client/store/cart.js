@@ -80,7 +80,6 @@ export const addToCartThunk = item => async dispatch => {
 
 export const submitCartThunk = () => async dispatch => {
   try {
-    console.log('in thunk:');
     await axios.put('/api/orders/checkout');
     dispatch(submitCart());
   } catch (err) {
