@@ -10,12 +10,8 @@ const sessionStore = new SequelizeStore({ db });
 const PORT = process.env.PORT || 8080;
 const app = express();
 const socketio = require('socket.io');
-const configureServer = require('./stripeServer');
-const paymentApi = require('./api/payment');
 module.exports = app;
 
-configureServer(app);
-paymentApi(app);
 
 // This is a global Mocha hook, used for resource cleanup.
 // Otherwise, Mocha v4+ never quits after tests.

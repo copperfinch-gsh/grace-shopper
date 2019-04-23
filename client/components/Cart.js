@@ -44,9 +44,9 @@ const Cart = ({ cartItems, handleChange, handleClick, deleteCartProduct }) => {
         />
       )}
       <Checkout
-        name={'The Road to learn React'}
-        description={'Only the Book'}
-        amount={1}
+        name={'Grace Shredder'}
+        description={'Your Order'}
+        amount={51}
       />
     </div>
   );
