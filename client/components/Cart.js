@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
   editCartThunk,
@@ -9,8 +9,22 @@ import { CartProduct } from '../components';
 import { Button } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import Checkout from './Checkout';
+import { sumCartProducts } from '../utils';
 
-const Cart = ({ cartItems, handleChange, handleClick, deleteCartProduct }) => {
+const Cart = ({
+  cartItems,
+  handleChange,
+  handleClick,
+  deleteCartProduct,
+  numProducts
+}) => {
+  let [cartTotal, setCartTotal] = useState(0);
+
+  useEffect(() => {
+    console.log('cart items:', cartItems.map(i => i.lineItem));
+    setCartTotal(sumCartProducts(cartItems));
+  });
+
   return (
     <div className="container-fluid">
       <Card style={{ width: '40rem' }}>
@@ -40,6 +54,7 @@ const Cart = ({ cartItems, handleChange, handleClick, deleteCartProduct }) => {
           );
         })}
       </Card>
+      <div> Total: {cartTotal} </div>
       {cartItems.length > 0 && (
         <Button
           id="checkout"
@@ -52,7 +67,7 @@ const Cart = ({ cartItems, handleChange, handleClick, deleteCartProduct }) => {
       <Checkout
         name={'Grace Shredder'}
         description={'Your Order'}
-        amount={51}
+        amount={cartTotal}
       />
     </div>
   );
