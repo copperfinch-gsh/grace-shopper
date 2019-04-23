@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
+import { getRange } from '../utils';
 
 class SingleProduct extends Component {
   constructor(props) {
@@ -18,8 +19,8 @@ class SingleProduct extends Component {
     });
   }
 
-  async handleClick(product) {
-    await this.props.addToCart({
+  handleClick(product) {
+    this.props.addToCart({
       product: product,
       desiredQuantity: this.state.selectedNum
     });
@@ -50,7 +51,7 @@ class SingleProduct extends Component {
               value={this.state.selectedNum}
               onChange={this.handleChange}
             >
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(number => {
+              {getRange(30).map(number => {
                 return (
                   <option key={number} value={number}>
                     {number}

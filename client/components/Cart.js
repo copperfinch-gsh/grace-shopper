@@ -5,7 +5,7 @@ import {
   submitCartThunk,
   removeFromCartThunk
 } from '../store/cart';
-import CartProduct from './CartProduct';
+import { CartProduct } from '../components';
 import { Button } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import Checkout from './Checkout';
@@ -13,15 +13,21 @@ import Checkout from './Checkout';
 const Cart = ({ cartItems, handleChange, handleClick, deleteCartProduct }) => {
   return (
     <div className="container-fluid">
-      <style jsx>{`
-        h3 {
-          color: green;
-        }
-      `}</style>
       <Card style={{ width: '40rem' }}>
-        <Card.Header>
+        <Card.Header
+          style={{ display: 'flex', justifyContent: 'space-between' }}
+        >
           {' '}
           <h3 id="shopping-cart">Shopping Cart:</h3>
+          {cartItems.length > 0 && (
+            <Button
+              id="checkout"
+              as="input"
+              type="button"
+              value="Checkout"
+              onClick={handleClick}
+            />
+          )}
         </Card.Header>
         {cartItems.map(item => {
           return (
