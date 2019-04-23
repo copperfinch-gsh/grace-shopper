@@ -1,6 +1,11 @@
 const router = require('express').Router();
 const { Order, LineItem, Product } = require('../db/models');
-const { clearSessionCart } = require('../utils');
+const {
+  clearSessionCart,
+  formatWithCommas,
+  sumCartProducts
+} = require('../utils');
+const nodemailer = require('nodemailer');
 
 module.exports = router;
 
@@ -70,14 +75,22 @@ router.post('/', async (req, res, next) => {
 
 router.put('/checkout', async (req, res, next) => {
   try {
-    let order;
+    let order, transporter, mailOptions;
     if (req.user) {
       order = await Order.getFullUserCart(req.user.id);
+      transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'graceshredder@gmail.com',
+          pass: 'almonds123'
+        }
+      });
     } else {
       order = await Order.getFullCart(req.session.cart.id);
     }
 
     const cart = order.products;
+    let total = 0;
     for (let i = 0; i < cart.length; i++) {
       let quantity = cart[i].quantity; // actual quantity
       let item = cart[i].lineItem;
@@ -85,6 +98,7 @@ router.put('/checkout', async (req, res, next) => {
       let remainingQuantity = quantity - desiredQuantity;
       let productId = item.productId;
 
+      total += item.unitPrice / 100 * desiredQuantity;
       await Product.update(
         {
           quantity: remainingQuantity
@@ -96,7 +110,24 @@ router.put('/checkout', async (req, res, next) => {
         }
       );
     }
-
+    if (req.user) {
+      total = formatWithCommas(total);
+      mailOptions = {
+        from: 'graceshredder@gmail.com',
+        to: req.user.email,
+        subject: "Thanks for shreddin' with us!",
+        html: `<h1>Thank you for shopping with us. Please see your order number and total below!<h3>Order Number: ${
+          order.id
+        }</h3><h3>Total: $${total}</h3>`
+      };
+      transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
+    }
     await order.update({ isCart: false });
     clearSessionCart(req.session);
 

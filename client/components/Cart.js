@@ -15,7 +15,6 @@ const Cart = ({ cartItems, handleChange, deleteCartProduct, numProducts }) => {
   let [cartTotal, setCartTotal] = useState(0);
 
   useEffect(() => {
-    console.log('cart items:', cartItems.map(i => i.lineItem));
     setCartTotal(sumCartProducts(cartItems));
   });
 
