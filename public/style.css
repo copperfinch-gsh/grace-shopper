@@ -228,3 +228,7 @@ form div {
   text-align: right;
   margin: 20px;
 }
+
+.loading {
+  color: white;
+}
