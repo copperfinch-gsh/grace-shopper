@@ -32,4 +32,19 @@ function clearSessionCart(session) {
   session.cart.numProducts = 0;
 }
 
-module.exports = { checkMerge, clearSessionCart };
+function formatWithCommas(num) {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function sumCartProducts(cartArr) {
+  return cartArr.reduce((accum, cur) => {
+    return accum + cur.price * cur.desiredQuantity;
+  }, 0);
+}
+
+module.exports = {
+  checkMerge,
+  clearSessionCart,
+  formatWithCommas,
+  sumCartProducts
+};
