@@ -84,6 +84,10 @@ form div {
   color: black;
 }
 
+#error-message {
+  color: #dd4b39;
+}
+
 .links {
   text-decoration: none;
   color: #dd4b39;

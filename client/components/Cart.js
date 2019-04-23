@@ -5,7 +5,7 @@ import {
   submitCartThunk,
   removeFromCartThunk
 } from '../store/cart';
-import CartProduct from './CartProduct';
+import { CartProduct } from '../components';
 import { Button } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 

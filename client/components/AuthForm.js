@@ -11,6 +11,10 @@ import Card from 'react-bootstrap/Card';
 const AuthForm = props => {
   const { name, displayName, handleSubmit, error } = props;
 
+  if (error) {
+    console.log('ERRRROOORRR', error.response);
+  }
+
   return (
     <div>
       <CardDeck style={{ width: '40rem' }}>
@@ -23,15 +27,13 @@ const AuthForm = props => {
                   <label htmlFor="email">
                     <small id="email">Email:</small>
                   </label>
-                  <p />
-                  <input name="email" type="text" />
+                  <input name="email" type="email" required />
                 </div>
                 <div>
                   <label htmlFor="password">
                     <small id="password">Password:</small>
                   </label>
-                  <p />
-                  <input name="password" type="password" />
+                  <input name="password" type="password" required />
                 </div>
                 <div>
                   <button id="login" type="submit">
@@ -53,7 +55,10 @@ const AuthForm = props => {
             <Card.Text>
               {' '}
               <form onSubmit={handleSubmit} name={name}>
-                {error && error.response && <div> {error.response.data} </div>}
+                {error &&
+                  error.response && (
+                    <div id="error-message"> {error.response.data} </div>
+                  )}
                 <button
                   type="submit"
                   href="/auth/google"

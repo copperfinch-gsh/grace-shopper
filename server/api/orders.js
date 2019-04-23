@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { Order, LineItem, Product } = require('../db/models');
-const { checkMerge, clearSessionCart } = require('../utils');
+const { clearSessionCart } = require('../utils');
 
 module.exports = router;
 
@@ -70,7 +70,32 @@ router.post('/', async (req, res, next) => {
 
 router.put('/checkout', async (req, res, next) => {
   try {
-    const order = await Order.getCurrentCart(req.user, req.session.cart);
+    let order;
+    if (req.user) {
+      order = await Order.getFullUserCart(req.user.id);
+    } else {
+      order = await Order.getFullCart(req.session.cart.id);
+    }
+
+    const cart = order.products;
+    for (let i = 0; i < cart.length; i++) {
+      let quantity = cart[i].quantity; // actual quantity
+      let item = cart[i].lineItem;
+      let desiredQuantity = item.quantity; // quantity ordered
+      let remainingQuantity = quantity - desiredQuantity;
+      let productId = item.productId;
+
+      await Product.update(
+        {
+          quantity: remainingQuantity
+        },
+        {
+          where: {
+            id: productId
+          }
+        }
+      );
+    }
 
     await order.update({ isCart: false });
     clearSessionCart(req.session);

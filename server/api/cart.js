@@ -13,10 +13,10 @@ router.get('/', async (req, res, next) => {
       //set req.session.cart to default so that ID doesn't exist
       clearSessionCart(req.session);
       //if the user exists, grab the full cart
-      data = await Order.getFullCart(req.user.id);
+      data = await Order.getFullUserCart(req.user.id);
     } else if (req.session.cart.id) {
       // if no user, grab the full guest session cart
-      data = await Order.getFullGuestCart(req.session.cart.id);
+      data = await Order.getFullCart(req.session.cart.id);
     }
     //populate the cart with the lineItems from the full cart you waited for
     if (data) {

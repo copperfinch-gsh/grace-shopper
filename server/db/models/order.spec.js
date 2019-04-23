@@ -37,7 +37,7 @@ describe('Order model', () => {
         return Order.findCart(2).then(data => expect(data).to.equal(null));
       });
     }); // end describe('correctPassword')
-    describe('getFullCart', () => {
+    describe('getFullUserCart', () => {
       beforeEach(async () => {
         try {
           const cody = await User.create({
@@ -86,13 +86,13 @@ describe('Order model', () => {
       });
 
       it('returns the full cart', () => {
-        return Order.getFullCart(1).then(data =>
+        return Order.getFullUserCart(1).then(data =>
           expect(data.userId).to.equal(1)
         );
       });
 
       it('returns the correct lineItems', () => {
-        return Order.getFullCart(1).then(data =>
+        return Order.getFullUserCart(1).then(data =>
           expect(data.products[0].lineItem.unitPrice).to.equal(10500)
         );
       });
