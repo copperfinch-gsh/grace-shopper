@@ -27,7 +27,6 @@ export const UserAccountInfo = props => {
 
   return (
     <div>
-      <h3>Welcome {firstName}!</h3>
       <div>
         <div
           className={profDisplay ? 'active' : ''}
