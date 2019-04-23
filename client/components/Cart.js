@@ -6,18 +6,12 @@ import {
   removeFromCartThunk
 } from '../store/cart';
 import { CartProduct } from '../components';
-import { Button } from 'react-bootstrap';
+// import { Button } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import Checkout from './Checkout';
 import { sumCartProducts } from '../utils';
 
-const Cart = ({
-  cartItems,
-  handleChange,
-  handleClick,
-  deleteCartProduct,
-  numProducts
-}) => {
+const Cart = ({ cartItems, handleChange, deleteCartProduct, numProducts }) => {
   let [cartTotal, setCartTotal] = useState(0);
 
   useEffect(() => {
@@ -34,12 +28,10 @@ const Cart = ({
           {' '}
           <h3 id="shopping-cart">Shopping Cart:</h3>
           {cartItems.length > 0 && (
-            <Button
-              id="checkout"
-              as="input"
-              type="button"
-              value="Checkout"
-              onClick={handleClick}
+            <Checkout
+              name={'Grace Shredder'}
+              description={'Your Order'}
+              amount={cartTotal}
             />
           )}
         </Card.Header>
@@ -55,20 +47,6 @@ const Cart = ({
         })}
       </Card>
       <div> Total: {cartTotal} </div>
-      {cartItems.length > 0 && (
-        <Button
-          id="checkout"
-          as="input"
-          type="button"
-          value="Checkout"
-          onClick={handleClick}
-        />
-      )}
-      <Checkout
-        name={'Grace Shredder'}
-        description={'Your Order'}
-        amount={cartTotal}
-      />
     </div>
   );
 };

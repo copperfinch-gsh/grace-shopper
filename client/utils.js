@@ -8,7 +8,7 @@ function formatWithCommas(num) {
 
 function sumCartProducts(cartArr) {
   return cartArr.reduce((accum, cur) => {
-    return accum + cur.lineItem.unitPrice * cur.desiredQuantity;
+    return accum + cur.price * cur.desiredQuantity;
   }, 0);
 }
 
