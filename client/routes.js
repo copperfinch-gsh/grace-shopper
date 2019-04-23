@@ -11,7 +11,7 @@ import {
 } from './components';
 import AllProducts from './components/AllProducts';
 import { me, getCartThunk } from './store';
-import AdminPage from './components/AdminPage'
+import AdminPage from './components/AdminPage';
 
 /**
  * COMPONENT
@@ -31,14 +31,12 @@ class Routes extends Component {
 
   render() {
     const { isLoggedIn } = this.props;
-
     return (
       <Switch>
         <Route exact path="/" component={AllProducts} />
         <Route exact path="/cart" component={Cart} />
         <Route path="/home" component={UserAccountInfo} />
-        <Route path="/edit" component={AdminPage} />
-
+        <Route path="/admin" component={AdminPage} />
         <Route path="/products" component={AllProducts} />
         {isLoggedIn ? (
           <Switch>
@@ -50,6 +48,7 @@ class Routes extends Component {
             <Route path="/signup" component={Signup} />
           </Switch>
         )}
+        <Redirect to="/" />
       </Switch>
     );
   }

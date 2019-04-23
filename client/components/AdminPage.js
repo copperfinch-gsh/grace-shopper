@@ -7,7 +7,8 @@ class AdminPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      price: 0
+      price: 0,
+      index: 0
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -17,12 +18,14 @@ class AdminPage extends Component {
   }
 
   handleChange(event) {
+    console.log(event.target.name, event.target.value);
     this.setState({ [event.target.name]: event.target.value });
   }
 
   handleSubmit(event) {
     event.preventDefault();
     const productId = this.props.match.params.id;
+    console.log(productId);
     this.props.updateOneProduct(productId, this.state);
     this.setState({
       price: ''
@@ -30,15 +33,26 @@ class AdminPage extends Component {
   }
   render() {
     const { allProducts } = this.props;
+    // console.log('hello', allProducts[this.state.index]);
     return (
       <div>
-        <h2>Modify Product Info</h2>
-        <GenericProductForm
-          {...this.state}
-          handleSubmit={this.handleSubmit}
-          handleChange={this.handleChange}
-          products={allProducts}
-        />
+        <h2 id="title-color">Modify Product Info</h2>
+        <select name="index" onChange={this.handleChange}>
+          {allProducts.map((product, index) => {
+            return (
+              <option key={product.id} value={index}>
+                {product.name}
+              </option>
+            );
+          })}
+        </select>
+        {allProducts[this.state.index] && (
+          <GenericProductForm
+            item={allProducts[this.state.index]}
+            handleSubmit={this.handleSubmit}
+            handleChange={this.handleChange}
+          />
+        )}
       </div>
     );
   }

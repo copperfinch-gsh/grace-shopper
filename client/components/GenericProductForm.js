@@ -1,19 +1,18 @@
 import React from 'react';
+import { CartProduct } from '../components';
+import Card from 'react-bootstrap/Card';
 
 export const GenericProductForm = props => {
-  const { price, handleChange, handleSubmit, products } = props;
+  const { item, handleChange, handleSubmit } = props;
+  console.log('genericproduct', item.price);
   return (
     <div>
-      <select name="selecteedName" onChange={handleChange}>
-        {products.map(product => {
-          return <option key={product.id}>{product.name}</option>;
-        })}
-      </select>
+      <CartProduct item={item} fullQuantity={item.quantity} />
       <form onSubmit={handleSubmit}>
         <label htmlFor="price" />
-        Enter New Price
+        <h4 id="title-color">Enter New Price</h4>
         <label />
-        <input type="text" name="price" value={price} onChange={handleChange} />
+        <input type="text" name="price" onChange={handleChange} />
         <button id="submitButton" type="submit">
           Submit
         </button>
