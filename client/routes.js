@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Login, Signup, Cart, UserAccountInfo } from './components';
+import {
+  Login,
+  Signup,
+  Cart,
+  UserAccountInfo,
+  OrderHistory
+} from './components';
 import AllProducts from './components/AllProducts';
 import { me, getCartThunk } from './store';
 import AdminPage from './components/AdminPage'
@@ -35,14 +41,14 @@ class Routes extends Component {
 
         <Route path="/products" component={AllProducts} />
         {isLoggedIn ? (
-          <div>
+          <Switch>
             <Redirect from="/login" to="/" />
-          </div>
+          </Switch>
         ) : (
-          <div>
+          <Switch>
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
-          </div>
+          </Switch>
         )}
       </Switch>
     );

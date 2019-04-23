@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getProduct } from '../store/products';
 import { addToCartThunk } from '../store/cart';
-import SingleProduct from './SingleProduct';
+import { SingleProduct } from '../components';
 import Carousel from 'react-bootstrap/Carousel';
 import Image from 'react-bootstrap/Image';
 
@@ -70,13 +70,17 @@ class AllProducts extends Component {
             </Carousel.Item>
           </Carousel>
           <div id="products">
-            {products.map(product => (
-              <SingleProduct
-                key={product.id}
-                product={product}
-                addToCart={addToCart}
-              />
-            ))}
+            {products.map(product => {
+              return (
+                product.quantity > 0 && (
+                  <SingleProduct
+                    key={product.id}
+                    product={product}
+                    addToCart={addToCart}
+                  />
+                )
+              );
+            })}
           </div>
         </div>
       );
