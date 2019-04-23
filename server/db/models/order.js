@@ -72,6 +72,10 @@ Order.getCurrentCart = async function(
   } else if (cartOnSession.id) {
     //if there's no logged in user but session cart has been added to
     order = await Order.findByPk(cartOnSession.id);
+    if (!order) {
+      order = await Order.create();
+      cartOnSession.id = order.id;
+    }
     cartOnSession.numProducts += quantity;
   } else {
     //otherwise we need to create a new order for non-logged in user
