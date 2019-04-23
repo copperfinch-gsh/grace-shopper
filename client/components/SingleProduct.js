@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
-import { getRange } from '../utils';
+import { getRange, formatWithCommas } from '../utils';
 
 class SingleProduct extends Component {
   constructor(props) {
@@ -41,7 +41,7 @@ class SingleProduct extends Component {
               <li>
                 {product.manufacturer} {product.name}
               </li>
-              <li>Price: ${product.price / 100}</li>
+              <li>Price: ${formatWithCommas(product.price / 100)}</li>
             </ul>
             <Button variant="primary" onClick={() => this.handleClick(product)}>
               Add to Cart
