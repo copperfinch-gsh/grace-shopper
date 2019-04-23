@@ -22,7 +22,10 @@ router.get('/:id/orders', async (req, res, next) => {
     if (req.user && Number(req.user.id) === Number(req.params.id)) {
       const orders = await Order.findAll({
         include: [
-          { model: Product, attributes: ['name', 'color', 'manufacturer'] }
+          {
+            model: Product,
+            attributes: ['name', 'color', 'manufacturer', 'imageUrl']
+          }
         ],
         where: {
           userId: req.user.id,

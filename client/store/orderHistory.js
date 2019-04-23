@@ -43,6 +43,7 @@ export default function(state = defaultHistory, action) {
             name: prod.name,
             color: prod.color,
             manufacturer: prod.manufacturer,
+            imageUrl: prod.imageUrl,
             price: prod.lineItem.unitPrice,
             quantity: prod.lineItem.quantity
           };
