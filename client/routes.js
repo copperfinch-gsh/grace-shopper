@@ -33,14 +33,14 @@ class Routes extends Component {
 
         <Route path="/products" component={AllProducts} />
         {isLoggedIn ? (
-          <div>
+          <Switch>
             <Redirect from="/login" to="/" />
-          </div>
+          </Switch>
         ) : (
-          <div>
+          <Switch>
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
-          </div>
+          </Switch>
         )}
       </Switch>
     );
