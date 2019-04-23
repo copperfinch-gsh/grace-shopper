@@ -11,9 +11,13 @@ const CURRENCY = 'USD';
 
 const successPayment = async data => {
   alert('Payment Successful');
-  await axios.put('/api/orders/checkout');
-  store.dispatch(submitCart());
-  history.push('/');
+  try {
+    await axios.put('/api/orders/checkout');
+    store.dispatch(submitCart());
+    history.push('/');
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const errorPayment = data => {
