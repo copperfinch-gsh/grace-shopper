@@ -4,7 +4,13 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { getRange } from '../utils';
 
-const CartProduct = ({ item, handleChange, deleteItem }) => {
+const CartProduct = ({
+  item,
+  handleChange,
+  deleteItem,
+  fullQuantity = 30,
+  admin = false
+}) => {
   return (
     <div>
       <Card style={{ width: '40rem', height: '10rem' }}>
@@ -13,37 +19,49 @@ const CartProduct = ({ item, handleChange, deleteItem }) => {
             <Button
               variant="danger"
               onClick={() => {
-                deleteItem(item);
+                if (admin) {
+                  deleteItem(item.id);
+                } else {
+                  deleteItem(item);
+                }
               }}
             >
               Delete
             </Button>
-            <select
-              id="quantity-selector"
-              onChange={event => handleChange(event, item)}
-            >
-              {getRange(30).map(number => {
-                return (
-                  <option
-                    key={number}
-                    value={number}
-                    selected={
-                      item.desiredQuantity &&
-                      number === Number(item.desiredQuantity)
-                        ? 'selected'
-                        : ''
-                    }
-                  >
-                    {number}
-                  </option>
-                );
-              })}
-            </select>{' '}
+            {item.desiredQuantity ? (
+              <select
+                id="quantity-selector"
+                onChange={event => handleChange(event, item)}
+              >
+                {getRange(fullQuantity).map(number => {
+                  return (
+                    <option
+                      key={number}
+                      value={number}
+                      selected={
+                        item.desiredQuantity &&
+                        number === Number(item.desiredQuantity)
+                          ? 'selected'
+                          : ''
+                      }
+                    >
+                      {number}
+                    </option>
+                  );
+                })}
+              </select>
+            ) : (
+              <span>
+                <b>Quantity:</b> {item.quantity}
+              </span>
+            )}
             <b>Item: </b>
             {item.name}
             <img src={item.imageUrl} width="110px" height="125px" />
             {'\n'}
-            <b>Price:</b> ${item.price * item.desiredQuantity / 100}
+            <b>Price:</b> ${item.desiredQuantity
+              ? item.price * item.desiredQuantity / 100
+              : item.price / 100}
           </ListGroup.Item>
         </ListGroup>
       </Card>

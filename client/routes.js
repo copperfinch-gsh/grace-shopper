@@ -2,15 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import {
-  Login,
-  Signup,
-  Cart,
-  UserAccountInfo,
-  OrderHistory
-} from './components';
+import { Login, Signup, Cart, UserAccountInfo } from './components';
 import AllProducts from './components/AllProducts';
 import { me, getCartThunk } from './store';
+import AdminPage from './components/AdminPage';
 
 /**
  * COMPONENT
@@ -29,14 +24,13 @@ class Routes extends Component {
   }
 
   render() {
-    const { isLoggedIn } = this.props;
-
+    const { isLoggedIn, isAdmin } = this.props;
     return (
       <Switch>
         <Route exact path="/" component={AllProducts} />
         <Route exact path="/cart" component={Cart} />
         <Route path="/home" component={UserAccountInfo} />
-
+        {isAdmin && <Route path="/admin" component={AdminPage} />}
         <Route path="/products" component={AllProducts} />
         {isLoggedIn ? (
           <Switch>
@@ -60,7 +54,8 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    isAdmin: state.user.isAdmin
   };
 };
 
