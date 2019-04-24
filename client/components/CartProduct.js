@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
-import { getRange } from '../utils';
+import { getRange, formatWithCommas } from '../utils';
 
 const CartProduct = ({
   item,
@@ -60,8 +60,8 @@ const CartProduct = ({
             <img src={item.imageUrl} width="110px" height="125px" />
             {'\n'}
             <b>Price:</b> ${item.desiredQuantity
-              ? item.price * item.desiredQuantity / 100
-              : item.price / 100}
+              ? formatWithCommas(item.price * item.desiredQuantity / 100)
+              : formatWithCommas(item.price / 100)}
           </ListGroup.Item>
         </ListGroup>
       </Card>

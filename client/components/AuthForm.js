@@ -11,10 +11,6 @@ import Card from 'react-bootstrap/Card';
 const AuthForm = props => {
   const { name, displayName, handleSubmit, error } = props;
 
-  if (error) {
-    console.log('ERRRROOORRR', error.response);
-  }
-
   return (
     <div>
       <CardDeck style={{ width: '40rem' }}>
