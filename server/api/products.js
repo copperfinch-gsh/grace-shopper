@@ -13,18 +13,22 @@ router.get('/', async (req, res, next) => {
 
 router.put('/:id', async (req, res, next) => {
   try {
-    const productId = Number(req.params.id);
-    const product = await Product.findByPk(productId);
-    const price = Number(req.body.price) * 100;
+    if (req.user && req.user.isAdmin) {
+      const productId = Number(req.params.id);
+      const product = await Product.findByPk(productId);
+      const price = Number(req.body.price) * 100;
 
-    if (!productId) {
-      res.sendStatus(404);
+      if (!productId) {
+        res.sendStatus(404);
+      } else {
+        const updatedProduct = await product.update({
+          price
+        });
+
+        res.status(200).send(updatedProduct);
+      }
     } else {
-      const updatedProduct = await product.update({
-        price
-      });
-
-      res.status(200).send(updatedProduct);
+      res.sendStatus(401);
     }
   } catch (error) {
     next(error);
@@ -33,15 +37,19 @@ router.put('/:id', async (req, res, next) => {
 
 router.delete('/:id', async (req, res, next) => {
   try {
-    const productId = Number(req.params.id);
-    const product = await Product.findByPk(productId);
+    if (req.user && req.user.isAdmin) {
+      const productId = Number(req.params.id);
+      const product = await Product.findByPk(productId);
 
-    if (!productId) {
-      res.sendStatus(404);
+      if (!productId) {
+        res.sendStatus(404);
+      } else {
+        await product.destroy();
+
+        res.sendStatus(200);
+      }
     } else {
-      await product.destroy();
-
-      res.sendStatus(200);
+      res.sendStatus(401);
     }
   } catch (error) {
     next(error);
