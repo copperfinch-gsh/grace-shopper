@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Order, LineItem } = require('../db/models');
+const { Order, LineItem, Product } = require('../db/models');
 const { checkMerge, clearSessionCart } = require('../utils');
 module.exports = router;
 
@@ -26,6 +26,7 @@ router.get('/', async (req, res, next) => {
       for (let i = 0; i < products.length; i++) {
         const item = products[i].dataValues;
         item.desiredQuantity = item.lineItem.quantity;
+        item.price = await Product.getPrice(item.id);
         cart.cartProducts.push(item);
         cart.numProducts += item.desiredQuantity;
       }
