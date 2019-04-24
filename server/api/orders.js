@@ -3,9 +3,8 @@ const { Order, LineItem, Product } = require('../db/models');
 const {
   clearSessionCart,
   formatWithCommas,
-  sumCartProducts
+  emailConfirmation
 } = require('../utils');
-const nodemailer = require('nodemailer');
 
 module.exports = router;
 
@@ -75,16 +74,9 @@ router.post('/', async (req, res, next) => {
 
 router.put('/checkout', async (req, res, next) => {
   try {
-    let order, transporter, mailOptions;
+    let order;
     if (req.user) {
       order = await Order.getFullUserCart(req.user.id);
-      transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: 'graceshredder@gmail.com',
-          pass: 'almonds123'
-        }
-      });
     } else {
       order = await Order.getFullCart(req.session.cart.id);
     }
@@ -112,21 +104,7 @@ router.put('/checkout', async (req, res, next) => {
     }
     if (req.user) {
       total = formatWithCommas(total);
-      mailOptions = {
-        from: 'graceshredder@gmail.com',
-        to: req.user.email,
-        subject: "Thanks for shreddin' with us!",
-        html: `<h1>Thank you for shopping with us. Please see your order number and total below!<h3>Order Number: ${
-          order.id
-        }</h3><h3>Total: $${total}</h3>`
-      };
-      transporter.sendMail(mailOptions, function(error, info) {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
-        }
-      });
+      emailConfirmation(req.user, order, total);
     }
     await order.update({ isCart: false });
     clearSessionCart(req.session);

@@ -1,4 +1,5 @@
 const { Order } = require('./db/models');
+const nodemailer = require('nodemailer');
 
 async function checkMerge(user, sessionId) {
   try {
@@ -42,9 +43,35 @@ function sumCartProducts(cartArr) {
   }, 0);
 }
 
+function emailConfirmation(user, order, total) {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'graceshredder@gmail.com',
+      pass: 'almonds123'
+    }
+  });
+  const mailOptions = {
+    from: 'graceshredder@gmail.com',
+    to: user.email,
+    subject: "Thanks for shreddin' with us!",
+    html: `<h1>Thank you for shopping with us. Please see your order number and total below!<h3>Order Number: ${
+      order.id
+    }</h3><h3>Total: $${total}</h3>`
+  };
+  transporter.sendMail(mailOptions, function(error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+}
+
 module.exports = {
   checkMerge,
   clearSessionCart,
   formatWithCommas,
-  sumCartProducts
+  sumCartProducts,
+  emailConfirmation
 };
