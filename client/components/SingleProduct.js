@@ -30,7 +30,7 @@ class SingleProduct extends Component {
     const { product } = this.props;
     return (
       <div>
-        <Card bg="info" text="white" style={{ width: '20rem' }}>
+        <Card bg="info" text="white" style={{ width: '100%' }}>
           <Card.Img
             style={{ width: '20rem', height: '22rem' }}
             variant="top"
