@@ -2,7 +2,7 @@ body {
   font-family: sans-serif;
   background-image: url('http://sfwallpaper.com/images/cool-guitar-background-27.jpg');
   background-repeat: no-repeat;
-  background-size: 100vw 100vh;
+  background-size: 100% 100%;
   background-attachment: fixed;
 }
 
@@ -47,6 +47,7 @@ form div {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  width: 100%;
 }
 
 #product-container {
